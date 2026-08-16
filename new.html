@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SkillGraph — Capability Map</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FBFBFA;
+    --surface: #FFFFFF;
+    --border: #E6E7E4;
+    --border-strong: #D6D8D3;
+    --ink: #12151A;
+    --ink-mid: #5B6169;
+    --ink-low: #9297A0;
+    --emerald: #0E7A5F;
+    --emerald-soft: #E7F3EE;
+    --emerald-line: #B7DDCD;
+    --amber: #A6690F;
+    --amber-soft: #FBF0DF;
+    --amber-line: #EFCE9B;
+    --sidebar: #12151A;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .mono {
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .paper {
+    background-image: linear-gradient(rgba(18,21,26,0.028) 1px, transparent 1px), linear-gradient(90deg, rgba(18,21,26,0.028) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+  }
+
+  .card-shadow {
+    box-shadow: 0 1px 2px rgba(18,21,26,0.03), 0 1px 12px rgba(18,21,26,0.03);
+  }
+
+  .ruler {
+    position: relative;
+  }
+
+  .ruler::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(90deg, var(--border-strong) 0, var(--border-strong) 1px, transparent 1px, transparent 25%);
+    opacity: .6;
+  }
+
+  .ruler-fill {
+    transition: width 1000ms cubic-bezier(.16,1,.3,1);
+  }
+
+  /* ACCORDION ANIMATION FIX */
+  .accordion-body {
+    max-height: 0px;
+    overflow: hidden;
+    transition: max-height 400ms ease-in-out, padding 300ms ease;
+  }
+
+  .skill-block.open .accordion-body {
+    max-height: 1000px;
+  }
+
+  .caret {
+    transition: transform 250ms ease;
+  }
+
+  .skill-block.open .caret {
+    transform: rotate(90deg);
+  }
+
+  .stamp-ring {
+    stroke-dasharray: 251.2;
+    transition: stroke-dashoffset 1.2s cubic-bezier(.16,1,.3,1);
+  }
+
+  .evidence-line {
+    background: linear-gradient(180deg, var(--border-strong), transparent);
+    width: 1px;
+  }
+
+  .navlink {
+    position: relative;
+  }
+
+  .navlink.active::before {
+    content: "";
+    position: absolute;
+    left: -16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 18px;
+    background: var(--emerald);
+    border-radius: 2px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--border-strong);
+    border-radius: 4px;
+  }
+
+  .btn-primary {
+    background: var(--emerald);
+    color: #fff;
+  }
+
+  .btn-primary:hover {
+    background: #0B6650;
+  }
+</style>
+</head>
+<body class="min-h-screen">
+
+<div class="flex min-h-screen">
+
+  <!-- SIDEBAR -->
+  <aside class="w-60 shrink-0 hidden lg:flex flex-col" style="background:var(--sidebar)">
+    <div class="px-6 py-6 flex items-center gap-2.5">
+      <svg width="20" height="20" viewBox="0 0 16 16" fill="none"><circle cx="3" cy="3" r="1.7" fill="#3FCBA0"/><circle cx="13" cy="4" r="1.7" fill="#3FCBA0"/><circle cx="4" cy="13" r="1.7" fill="#3FCBA0"/><line x1="3" y1="3" x2="13" y2="4" stroke="#3FCBA0" stroke-width="0.9"/><line x1="3" y1="3" x2="4" y2="13" stroke="#3FCBA0" stroke-width="0.9"/></svg>
+      <div class="mono text-[13px] tracking-[0.16em] text-white font-semibold">SKILLGRAPH</div>
+    </div>
+
+    <nav class="mt-4 px-9 flex flex-col gap-1 mono text-[12px] tracking-[0.08em]">
+      <a href="#" class="navlink active py-2.5 text-white font-medium">DASHBOARD</a>
+      <a href="#" class="navlink py-2.5 text-[#8A9099] hover:text-white transition-colors">TASK FEED</a>
+      <a href="#" class="navlink py-2.5 text-[#8A9099] hover:text-white transition-colors">EVIDENCE LOG</a>
+      <a href="#" class="navlink py-2.5 text-[#8A9099] hover:text-white transition-colors">COMPANY VIEW</a>
+      <a href="#" class="navlink py-2.5 text-[#8A9099] hover:text-white transition-colors">SETTINGS</a>
+    </nav>
+
+    <div class="mt-auto px-6 py-6 border-t" style="border-color:rgba(255,255,255,0.08)">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-full flex items-center justify-center mono text-[11px]" style="background:#1E232B;color:#3FCBA0">AR</div>
+        <div>
+          <div class="text-[13px] text-white font-medium leading-none">Aditi Rao</div>
+          <div class="mono text-[10px] text-[#767C86] mt-1 tracking-wide">AR-2291</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="flex-1 paper">
+
+    <!-- TOPBAR -->
+    <header class="border-b sticky top-0 z-30 backdrop-blur bg-[#FBFBFA]/90" style="border-color:var(--border)">
+      <div class="px-6 lg:px-10 py-4 flex items-center justify-between">
+        <div>
+          <h1 class="text-[17px] font-semibold">Capability Dashboard</h1>
+          <p class="text-[12px] mt-0.5" style="color:var(--ink-mid)">Every score below is task-verified — nothing here is self-reported.</p>
+        </div>
+        <div class="flex items-center gap-3">
+          <button class="mono text-[11px] tracking-wide px-3.5 py-2 rounded-md border" style="border-color:var(--border-strong); color:var(--ink-mid)">EXPORT PROFILE</button>
+          <button class="mono text-[11px] tracking-wide px-3.5 py-2 rounded-md btn-primary transition-colors">SHARE WITH COMPANY</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="px-6 lg:px-10 py-8 space-y-8 max-w-6xl">
+
+      <!-- SUMMARY STRIP -->
+      <section class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+
+        <!-- Stamp / overall score -->
+        <div class="lg:col-span-3 card card-shadow rounded-xl p-5 flex items-center gap-5">
+          <div class="relative w-[68px] h-[68px] shrink-0">
+            <svg viewBox="0 0 88 88" class="w-[68px] h-[68px] -rotate-90">
+              <circle cx="44" cy="44" r="40" fill="none" stroke="var(--border)" stroke-width="6"/>
+              <circle cx="44" cy="44" r="40" fill="none" stroke="var(--emerald)" stroke-width="6" stroke-linecap="round"
+                stroke-dasharray="251.2" stroke-dashoffset="83" class="stamp-ring"/>
+            </svg>
+            <div class="absolute inset-0 flex items-center justify-center mono text-[15px] font-semibold" style="color:var(--emerald)">67%</div>
+          </div>
+          <div>
+            <div class="mono text-[10px] tracking-[0.12em]" style="color:var(--ink-low)">OVERALL CAPABILITY</div>
+            <div class="text-[13px] mt-1" style="color:var(--ink-mid)">Verified across 2 domains</div>
+            <div class="mono text-[10px] mt-1.5" style="color:var(--emerald)">▲ +6% since last task</div>
+          </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="lg:col-span-6 grid grid-cols-3 gap-4">
+          <div class="card card-shadow rounded-xl p-5">
+            <div class="mono text-[10px] tracking-[0.12em]" style="color:var(--ink-low)">TASKS DONE</div>
+            <div class="text-[26px] font-semibold mt-2">23</div>
+            <div class="text-[12px] mt-1" style="color:var(--ink-mid)">of 40 available</div>
+          </div>
+          <div class="card card-shadow rounded-xl p-5">
+            <div class="mono text-[10px] tracking-[0.12em]" style="color:var(--ink-low)">EVIDENCE POINTS</div>
+            <div class="text-[26px] font-semibold mt-2">146</div>
+            <div class="text-[12px] mt-1" style="color:var(--ink-mid)">graph-linked artifacts</div>
+          </div>
+          <div class="card card-shadow rounded-xl p-5">
+            <div class="mono text-[10px] tracking-[0.12em]" style="color:var(--ink-low)">ACTIVE STREAK</div>
+            <div class="text-[26px] font-semibold mt-2">5<span class="text-[13px]" style="color:var(--ink-mid)"> days</span></div>
+            <div class="text-[12px] mt-1" style="color:var(--ink-mid)">last task Aug 13</div>
+          </div>
+        </div>
+
+        <!-- Next best task -->
+        <div class="lg:col-span-3 rounded-xl p-5 card-shadow" style="background:var(--amber-soft); border:1px solid var(--amber-line)">
+          <div class="mono text-[10px] tracking-[0.12em]" style="color:var(--amber)">NEXT BEST TASK</div>
+          <div class="text-[14px] font-semibold mt-2 leading-snug">SQL Optimization: Slow Query Rewrite</div>
+          <div class="text-[12px] mt-1.5" style="color:var(--ink-mid)">Targets your weakest sub-skill — SQL / Optimization (41%)</div>
+          <div class="flex items-center justify-between mt-4">
+            <span class="mono text-[10px] tracking-wide" style="color:var(--ink-low)">~20 MIN</span>
+            <button class="mono text-[10px] tracking-wider px-3 py-1.5 rounded-md text-white font-semibold hover:brightness-110 transition" style="background:var(--amber)">START →</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- MAIN GRID -->
+      <section class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+        <!-- CAPABILITY GRAPH -->
+        <div class="lg:col-span-8 card card-shadow rounded-xl">
+          <div class="flex items-center justify-between px-5 py-4 border-b" style="border-color:var(--border)">
+            <div>
+              <div class="mono text-[10px] tracking-[0.12em]" style="color:var(--ink-low)">CAPABILITY GRAPH</div>
+              <div class="text-[15px] font-semibold mt-1">Measured, not claimed</div>
+            </div>
+            <div class="mono text-[10px] tracking-wide hidden sm:block" style="color:var(--ink-low)">SCALE 0 — 25 — 50 — 75 — 100</div>
+          </div>
+
+          <div class="p-5 space-y-3">
+
+            <!-- SKILL: PYTHON -->
+            <div class="skill-block open rounded-lg overflow-hidden border" style="border-color:var(--border)">
+              <button onclick="toggleAccordion(this)" class="w-full flex items-center justify-between px-4 py-3.5" style="background:#FAFAF9">
+                <div class="flex items-center gap-3">
+                  <svg class="caret w-3 h-3" style="color:var(--ink-low)" viewBox="0 0 8 12" fill="none"><path d="M1 1L6 6L1 11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                  <span class="mono text-[13px] font-semibold tracking-wide">PYTHON</span>
+                  <span class="mono text-[10px] px-2 py-0.5 rounded-full tracking-wide" style="background:var(--emerald-soft); color:var(--emerald)">4 SUB-SKILLS</span>
+                </div>
+                <span class="mono text-[13px]" style="color:var(--emerald)">66%</span>
+              </button>
+
+              <div class="accordion-body">
+                <div class="px-4 pb-4 pt-3 space-y-4">
+
+                  <div>
+                    <div class="flex items-center justify-between mb-1.5">
+                      <span class="text-[13px]">Data Cleaning</span>
+                      <span class="mono text-[12px]" style="color:var(--emerald)">82%</span>
+                    </div>
+                    <div class="ruler h-2 rounded-full overflow-hidden" style="background:#F0F1EE">
+                      <div class="ruler-fill h-full rounded-full" style="width:82%; background:var(--emerald)"></div>
+                    </div>
+                    <div class="mono text-[10px] mt-1 tracking-wide" style="color:var(--ink-low)">BASED ON 6 TASKS · LAST VERIFIED AUG 11</div>
+                  </div>
+
+                  <div>
+                    <div class="flex items-center justify-between mb-1.5">
+                      <span class="text-[13px]">Logic</span>
+                      <span class="mono text-[12px]" style="color:var(--emerald)">74%</span>
+                    </div>
+                    <div class="ruler h-2 rounded-full overflow-hidden" style="background:#F0F1EE">
+                      <div class="ruler-fill h-full rounded-full" style="width:74%; background:var(--emerald)"></div>
+                    </div>
+                    <div class="mono text-[10px] mt-1 tracking-wide" style="color:var(--ink-low)">BASED ON 5 TASKS · LAST VERIFIED AUG 9</div>
+                  </div>
+
+                  <div>
+                    <div class="flex items-center justify-between mb-1.5">
+                      <span class="text-[13px]">Debugging</span>
+                      <span class="mono text-[12px]" style="color:#4E9C82">61%</span>
+                    </div>
+                    <div class="ruler h-2 rounded-full overflow-hidden" style="background:#F0F1EE">
+                      <div class="ruler-fill h-full rounded-full" style="width:61%; background:#4E9C82"></div>
+                    </div>
+                    <div class="mono text-[10px] mt-1 tracking-wide" style="color:var(--ink-low)">BASED ON 4 TASKS · LAST VERIFIED AUG 6</div>
+                  </div>
+
+                  <div>
+                    <div class="flex items-center justify-between mb-1.5">
+                      <span class="text-[13px]">Automation</span>
+                      <span class="mono text-[12px]" style="color:var(--amber)">45%</span>
+                    </div>
+                    <div class="ruler h-2 rounded-full overflow-hidden" style="background:#F0F1EE">
+                      <div class="ruler-fill h-full rounded-full" style="width:45%; background:var(--amber)"></div>
+                    </div>
+                    <div class="mono text-[10px] mt-1 tracking-wide" style="color:var(--ink-low)">BASED ON 2 TASKS · GAP FLAGGED</div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            <!-- SKILL: SQL -->
+            <div class="skill-block open rounded-lg overflow-hidden border" style="border-color:var(--border)">
+              <button onclick="toggleAccordion(this)" class="w-full flex items-center justify-between px-4 py-3.5" style="background:#FAFAF9">
+                <div class="flex items-center gap-3">
+                  <svg class="caret w-3 h-3" style="color:var(--ink-low)" viewBox="0 0 8 12" fill="none"><path d="M1 1L6 6L1 11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                  <span class="mono text-[13px] font-semibold tracking-wide">SQL</span>
+                  <span class="mono text-[10px] px-2 py-0.5 rounded-full tracking-wide" style="background:var(--emerald-soft); color:var(--emerald)">3 SUB-SKILLS</span>
+                </div>
+                <span class="mono text-[13px]" style="color:var(--emerald)">64%</span>
+              </button>
+
+              <div class="accordion-body">
+                <div class="px-4 pb-4 pt-3 space-y-4">
+
+                  <div>
+                    <div class="flex items-center justify-between mb-1.5">
+                      <span class="text-[13px]">Queries</span>
+                      <span class="mono text-[12px]" style="color:var(--emerald)">78%</span>
+                    </div>
+                    <div class="ruler h-2 rounded-full overflow-hidden" style="background:#F0F1EE">
+                      <div class="ruler-fill h-full rounded-full" style="width:78%; background:var(--emerald)"></div>
+                    </div>
+                    <div class="mono text-[10px] mt-1 tracking-wide" style="color:var(--ink-low)">BASED ON 5 TASKS · LAST VERIFIED AUG 12</div>
+                  </div>
+
+                  <div>
+                    <div class="flex items-center justify-between mb-1.5">
+                      <span class="text-[13px]">Joins</span>
+                      <span class="mono text-[12px]" style="color:var(--emerald)">72%</span>
+                    </div>
+                    <div class="ruler h-2 rounded-full overflow-hidden" style="background:#F0F1EE">
+                      <div class="ruler-fill h-full rounded-full" style="width:72%; background:var(--emerald)"></div>
+                    </div>
+                    <div class="mono text-[10px] mt-1 tracking-wide" style="color:var(--ink-low)">BASED ON 4 TASKS · LAST VERIFIED AUG 10</div>
+                  </div>
+
+                  <div>
+                    <div class="flex items-center justify-between mb-1.5">
+                      <span class="text-[13px]">Optimization</span>
+                      <span class="mono text-[12px]" style="color:var(--amber)">41%</span>
+                    </div>
+                    <div class="ruler h-2 rounded-full overflow-hidden" style="background:#F0F1EE">
+                      <div class="ruler-fill h-full rounded-full" style="width:41%; background:var(--amber)"></div>
+                    </div>
+                    <div class="mono text-[10px] mt-1 tracking-wide" style="color:var(--ink-low)">BASED ON 2 TASKS · GAP FLAGGED · NEXT TASK READY</div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- EVIDENCE LOG -->
+        <div class="lg:col-span-4 card card-shadow rounded-xl">
+          <div class="px-5 py-4 border-b" style="border-color:var(--border)">
+            <div class="mono text-[10px] tracking-[0.12em]" style="color:var(--ink-low)">EVIDENCE LOG</div>
+            <div class="text-[15px] font-semibold mt-1">Recent activity</div>
+          </div>
+          <div class="p-5">
+            <div class="relative pl-5 space-y-6">
+              <div class="evidence-line absolute left-[3px] top-1 bottom-1"></div>
+
+              <div class="relative">
+                <div class="absolute -left-5 top-1 w-2 h-2 rounded-full" style="background:var(--emerald)"></div>
+                <div class="mono text-[10px] tracking-wide" style="color:var(--ink-low)">AUG 13 · 20 MIN</div>
+                <div class="text-[13px] mt-1">Completed <span style="color:var(--emerald)" class="font-medium">Data Cleaning</span> task — messy CSV → validated dataset</div>
+                <div class="mono text-[10px] mt-1" style="color:var(--emerald)">Data Cleaning 78% → 82%</div>
+              </div>
+
+              <div class="relative">
+                <div class="absolute -left-5 top-1 w-2 h-2 rounded-full" style="background:var(--emerald)"></div>
+                <div class="mono text-[10px] tracking-wide" style="color:var(--ink-low)">AUG 11 · 15 MIN</div>
+                <div class="text-[13px] mt-1">Completed <span style="color:var(--emerald)" class="font-medium">SQL Joins</span> task — multi-table reporting query</div>
+                <div class="mono text-[10px] mt-1" style="color:var(--emerald)">Joins 65% → 72%</div>
+              </div>
+
+              <div class="relative">
+                <div class="absolute -left-5 top-1 w-2 h-2 rounded-full" style="background:var(--amber)"></div>
+                <div class="mono text-[10px] tracking-wide" style="color:var(--ink-low)">AUG 9 · 20 MIN</div>
+                <div class="text-[13px] mt-1">Attempted <span style="color:var(--amber)" class="font-medium">Automation</span> task — partial pass, gap confirmed</div>
+                <div class="mono text-[10px] mt-1" style="color:var(--ink-mid)">Automation held at 45%</div>
+              </div>
+
+              <div class="relative">
+                <div class="absolute -left-5 top-1 w-2 h-2 rounded-full" style="background:var(--emerald)"></div>
+                <div class="mono text-[10px] tracking-wide" style="color:var(--ink-low)">AUG 6 · 25 MIN</div>
+                <div class="text-[13px] mt-1">Completed <span style="color:var(--emerald)" class="font-medium">Debugging</span> scenario — stack trace triage</div>
+                <div class="mono text-[10px] mt-1" style="color:var(--emerald)">Debugging 52% → 61%</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TASK FEED -->
+      <section>
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <div class="mono text-[10px] tracking-[0.12em]" style="color:var(--ink-low)">TASK FEED</div>
+            <div class="text-[15px] font-semibold mt-1">Available tasks</div>
+          </div>
+          <div class="mono text-[10px] tracking-wide hidden sm:block" style="color:var(--ink-low)">FILTER: ALL SKILLS ▾</div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+          <div class="card card-shadow rounded-xl p-5 hover:-translate-y-0.5 transition-transform" style="border-color:var(--amber-line)">
+            <div class="flex items-center justify-between">
+              <span class="mono text-[10px] px-2 py-0.5 rounded-full tracking-wide" style="background:var(--amber-soft); color:var(--amber)">SQL · OPTIMIZATION</span>
+              <span class="mono text-[10px]" style="color:var(--ink-low)">20 MIN</span>
+            </div>
+            <div class="text-[14px] font-semibold mt-3">Slow Query Rewrite</div>
+            <div class="text-[12px] mt-1.5" style="color:var(--ink-mid)">Rewrite a 4.2s report query against a 2M-row orders table to run under 300ms.</div>
+            <button class="mono text-[10px] tracking-wider mt-4 font-medium" style="color:var(--amber)">START TASK →</button>
+          </div>
+
+          <div class="card card-shadow rounded-xl p-5 hover:-translate-y-0.5 transition-transform">
+            <div class="flex items-center justify-between">
+              <span class="mono text-[10px] px-2 py-0.5 rounded-full tracking-wide" style="background:var(--emerald-soft); color:var(--emerald)">PYTHON · AUTOMATION</span>
+              <span class="mono text-[10px]" style="color:var(--ink-low)">25 MIN</span>
+            </div>
+            <div class="text-[14px] font-semibold mt-3">Build a File-Watcher Pipeline</div>
+            <div class="text-[12px] mt-1.5" style="color:var(--ink-mid)">Script that watches a folder and auto-processes new CSV drops into a clean output dir.</div>
+            <button class="mono text-[10px] tracking-wider mt-4 font-medium" style="color:var(--emerald)">START TASK →</button>
+          </div>
+
+          <div class="card card-shadow rounded-xl p-5 hover:-translate-y-0.5 transition-transform">
+            <div class="flex items-center justify-between">
+              <span class="mono text-[10px] px-2 py-0.5 rounded-full tracking-wide" style="background:var(--emerald-soft); color:var(--emerald)">SQL · QUERIES</span>
+              <span class="mono text-[10px]" style="color:var(--ink-low)">15 MIN</span>
+            </div>
+            <div class="text-[14px] font-semibold mt-3">Cohort Retention Query</div>
+            <div class="text-[12px] mt-1.5" style="color:var(--ink-mid)">Write a query computing weekly cohort retention from raw event logs.</div>
+            <button class="mono text-[10px] tracking-wider mt-4 font-medium" style="color:var(--emerald)">START TASK →</button>
+          </div>
+
+        </div>
+      </section>
+
+      <footer class="mono text-[10px] tracking-wide py-8" style="color:var(--ink-low)">
+        EVERY NUMBER ON THIS PAGE IS TASK-VERIFIED — NOT SELF-REPORTED
+      </footer>
+
+    </main>
+  </div>
+</div>
+
+<script>
+  function toggleAccordion(button) {
+    const parent = button.closest('.skill-block');
+    parent.classList.toggle('open');
+  }
+</script>
+
+</body>
+</html>

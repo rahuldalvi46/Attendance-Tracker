@@ -1,0 +1,1459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blue Mystic Hotel | Official Luxury Stay in Pune</title>
+    
+    <!-- Google Fonts: Serif for Classic Header, Sans-serif for Body -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* CSS Variables - Classic Navy & Imperial Gold Palette */
+        :root {
+            --primary-navy: #0B1325;
+            --secondary-navy: #14213D;
+            --accent-gold: #C5A059;
+            --accent-gold-hover: #A8833E;
+            --bg-cream: #FAF8F5;
+            --card-bg: #FFFFFF;
+            --text-dark: #1C1C1C;
+            --text-muted: #666666;
+            --border-gold: rgba(197, 160, 89, 0.3);
+            --shadow-classic: 0 15px 35px rgba(11, 19, 37, 0.08);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-cream);
+            color: var(--text-dark);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, .serif-font {
+            font-family: 'Cormorant Garamond', serif;
+            letter-spacing: 0.5px;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Top Notification Bar */
+        .top-bar {
+            background-color: var(--primary-navy);
+            color: var(--accent-gold);
+            padding: 8px 5%;
+            font-size: 0.85rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-gold);
+        }
+
+        .top-bar-info {
+            display: flex;
+            gap: 20px;
+        }
+
+        .top-bar-info span i {
+            margin-right: 6px;
+        }
+
+        /* Header Navigation */
+        header {
+            background-color: rgba(11, 19, 37, 0.96);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-gold);
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-logo i {
+            font-size: 2rem;
+            color: var(--accent-gold);
+        }
+
+        .brand-logo div h1 {
+            color: #FFFFFF;
+            font-size: 1.8rem;
+            font-weight: 700;
+            line-height: 1;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .brand-logo div span {
+            color: var(--accent-gold);
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            display: block;
+            margin-top: 2px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        nav ul li a {
+            color: #FFFFFF;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: var(--transition);
+            position: relative;
+            padding-bottom: 5px;
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background-color: var(--accent-gold);
+            transition: var(--transition);
+        }
+
+        nav ul li a:hover {
+            color: var(--accent-gold);
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-hover));
+            color: #FFFFFF !important;
+            padding: 10px 22px;
+            border-radius: 2px;
+            font-weight: 600 !important;
+            border: 1px solid var(--accent-gold);
+        }
+
+        .nav-btn::after { display: none !important; }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(11, 19, 37, 0.75), rgba(11, 19, 37, 0.85)), 
+                        url('https://lh3.googleusercontent.com/gps-cs-s/AHRPTWlp2QO2vZbXSR1OE35mceVt9dnNpgpRPmnabdGLWM6aI_vbge_xhawG9NqNARmMEHrMhyp4CrNIo81UPZthyTjqpnBMMc77nA5ZpYFftTQWzLGf3MPSo9atw2a3-OguGAzwOSIM=w253-h168-k-no') center/cover no-repeat;
+            height: 75vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: #FFFFFF;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        .hero h2 {
+            font-size: 3.8rem;
+            font-weight: 600;
+            color: var(--accent-gold);
+            margin-bottom: 10px;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 650px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            margin-bottom: 30px;
+        }
+
+        /* Classic Booking Search Bar */
+        .booking-wrapper {
+            max-width: 1100px;
+            margin: -60px auto 60px auto;
+            position: relative;
+            z-index: 100;
+            padding: 0 20px;
+        }
+
+        .booking-card {
+            background: var(--card-bg);
+            border-top: 4px solid var(--accent-gold);
+            padding: 35px;
+            border-radius: 4px;
+            box-shadow: var(--shadow-classic);
+            border-left: 1px solid var(--border-gold);
+            border-right: 1px solid var(--border-gold);
+            border-bottom: 1px solid var(--border-gold);
+        }
+
+        .booking-card-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .booking-card-header h3 {
+            font-size: 2.2rem;
+            color: var(--primary-navy);
+        }
+
+        .booking-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--primary-navy);
+            margin-bottom: 8px;
+        }
+
+        .form-group input, .form-group select {
+            padding: 12px 15px;
+            border: 1px solid #E0E0E0;
+            border-radius: 2px;
+            font-size: 0.95rem;
+            font-family: 'Montserrat', sans-serif;
+            background-color: #FAFAFA;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            border-color: var(--accent-gold);
+            background-color: #FFFFFF;
+        }
+
+        /* Dynamic Price Summary Box */
+        .price-summary-box {
+            grid-column: 1 / -1;
+            background: #F4F0EA;
+            padding: 15px 20px;
+            border-radius: 2px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 3px solid var(--accent-gold);
+            margin-top: 10px;
+        }
+
+        .price-summary-box span {
+            font-size: 0.9rem;
+            color: var(--text-dark);
+        }
+
+        .price-summary-box strong {
+            font-size: 1.3rem;
+            color: var(--primary-navy);
+        }
+
+        .btn-whatsapp-book {
+            grid-column: 1 / -1;
+            background: #25D366;
+            color: #FFFFFF;
+            border: none;
+            padding: 16px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-radius: 2px;
+            transition: var(--transition);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
+        }
+
+        .btn-whatsapp-book:hover {
+            background: #1EBE5D;
+            transform: translateY(-2px);
+        }
+
+        /* Section Global Header */
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-header span {
+            color: var(--accent-gold);
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 3px;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .section-header h2 {
+            font-size: 3rem;
+            color: var(--primary-navy);
+            line-height: 1.1;
+        }
+
+        .gold-divider {
+            width: 60px;
+            height: 2px;
+            background-color: var(--accent-gold);
+            margin: 15px auto 0 auto;
+        }
+
+        /* Rooms Section */
+        .rooms-section {
+            padding: 60px 5%;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .rooms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 35px;
+        }
+
+        .room-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-gold);
+            box-shadow: var(--shadow-classic);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .room-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(11, 19, 37, 0.12);
+        }
+
+        .room-image {
+            position: relative;
+            height: 260px;
+            overflow: hidden;
+        }
+
+        .room-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .room-card:hover .room-image img {
+            transform: scale(1.08);
+        }
+
+        .room-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--primary-navy);
+            color: var(--accent-gold);
+            padding: 5px 12px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            border: 1px solid var(--accent-gold);
+        }
+
+        .room-details {
+            padding: 25px;
+        }
+
+        .room-details h3 {
+            font-size: 1.8rem;
+            color: var(--primary-navy);
+            margin-bottom: 10px;
+        }
+
+        .room-amenities-icons {
+            display: flex;
+            gap: 15px;
+            color: var(--accent-gold);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #EAEAEA;
+        }
+
+        .room-amenities-icons span {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            margin-left: 4px;
+        }
+
+        .room-description {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .room-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .price-tag {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .price-tag .amount {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--primary-navy);
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        .price-tag .period {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .btn-select-room {
+            background: transparent;
+            color: var(--primary-navy);
+            border: 1px solid var(--primary-navy);
+            padding: 10px 18px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-select-room:hover {
+            background: var(--primary-navy);
+            color: var(--accent-gold);
+        }
+
+        /* Dining & Restaurant Section Styles */
+        .dining-section {
+            padding: 80px 5%;
+            background: linear-gradient(180deg, #FAF8F5 0%, #F3EEE8 100%);
+            border-top: 1px solid var(--border-gold);
+            border-bottom: 1px solid var(--border-gold);
+        }
+
+        .dining-hero {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 40px;
+            align-items: center;
+            max-width: 1280px;
+            margin: 0 auto 50px auto;
+        }
+
+        .dining-content h3 {
+            font-size: 2.5rem;
+            color: var(--primary-navy);
+            margin-bottom: 15px;
+        }
+
+        .dining-content p {
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+
+        .dining-hours {
+            background: #FFFFFF;
+            padding: 20px;
+            border-left: 3px solid var(--accent-gold);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin-bottom: 25px;
+        }
+
+        .dining-hours h4 {
+            color: var(--primary-navy);
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .dining-hours ul {
+            list-style: none;
+            font-size: 0.85rem;
+            color: var(--text-dark);
+        }
+
+        .dining-hours span {
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .dining-image-banner {
+            position: relative;
+            border-radius: 2px;
+            overflow: hidden;
+            box-shadow: var(--shadow-classic);
+            border: 1px solid var(--border-gold);
+            height: 380px;
+        }
+
+        .dining-image-banner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .cuisine-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .cuisine-tag {
+            background: var(--primary-navy);
+            color: var(--accent-gold);
+            padding: 5px 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border: 1px solid var(--border-gold);
+        }
+
+        .menu-highlights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 25px;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .menu-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-gold);
+            padding: 20px;
+            border-radius: 2px;
+            transition: var(--transition);
+            box-shadow: var(--shadow-classic);
+        }
+
+        .menu-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-gold);
+        }
+
+        .menu-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .menu-card-header h4 {
+            font-size: 1.2rem;
+            color: var(--primary-navy);
+        }
+
+        .menu-card p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .btn-table-reserve {
+            background: var(--primary-navy);
+            color: var(--accent-gold);
+            padding: 12px 25px;
+            border: 1px solid var(--accent-gold);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: var(--transition);
+        }
+
+        .btn-table-reserve:hover {
+            background: var(--accent-gold);
+            color: var(--primary-navy);
+        }
+
+        /* Amenities Section */
+        .amenities-section {
+            background-color: var(--primary-navy);
+            color: #FFFFFF;
+            padding: 80px 5%;
+            margin-top: 40px;
+        }
+
+        .amenities-section .section-header h2 {
+            color: #FFFFFF;
+        }
+
+        .amenities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .amenity-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(197, 160, 89, 0.2);
+            padding: 30px;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .amenity-card:hover {
+            background: rgba(197, 160, 89, 0.08);
+            border-color: var(--accent-gold);
+            transform: translateY(-5px);
+        }
+
+        .amenity-card i {
+            font-size: 2.5rem;
+            color: var(--accent-gold);
+            margin-bottom: 20px;
+        }
+
+        .amenity-card h4 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #FFFFFF;
+        }
+
+        .amenity-card p {
+            font-size: 0.85rem;
+            color: #A0AEC0;
+        }
+
+        /* Photo Gallery Section */
+        .gallery-section {
+            padding: 80px 5%;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .gallery-item {
+            height: 220px;
+            overflow: hidden;
+            position: relative;
+            border-radius: 2px;
+            box-shadow: var(--shadow-classic);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        /* FAQ Section Accordion */
+        .faq-section {
+            background: #F2EFE9;
+            padding: 80px 5%;
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: #FFFFFF;
+            margin-bottom: 15px;
+            border: 1px solid var(--border-gold);
+            border-radius: 2px;
+        }
+
+        .faq-question {
+            padding: 20px 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary-navy);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .faq-answer {
+            padding: 0 25px 20px 25px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            display: none;
+            line-height: 1.6;
+        }
+
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+            color: var(--accent-gold);
+        }
+
+        /* Location & Map Section */
+        .location-section {
+            padding: 80px 5%;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .location-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            align-items: center;
+        }
+
+        .location-info {
+            background: var(--card-bg);
+            padding: 40px;
+            border: 1px solid var(--border-gold);
+            box-shadow: var(--shadow-classic);
+        }
+
+        .location-info h3 {
+            font-size: 2.2rem;
+            color: var(--primary-navy);
+            margin-bottom: 20px;
+        }
+
+        .address-item {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .address-item i {
+            font-size: 1.2rem;
+            color: var(--accent-gold);
+            margin-top: 5px;
+        }
+
+        .address-item p {
+            font-size: 0.95rem;
+            color: var(--text-dark);
+        }
+
+        .map-frame {
+            height: 400px;
+            width: 100%;
+            border: 1px solid var(--border-gold);
+            box-shadow: var(--shadow-classic);
+        }
+
+        .map-frame iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--primary-navy);
+            color: #FFFFFF;
+            padding: 60px 5% 20px 5%;
+            border-top: 2px solid var(--accent-gold);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h4 {
+            font-size: 1.4rem;
+            color: var(--accent-gold);
+            margin-bottom: 20px;
+        }
+
+        .footer-col p, .footer-col li {
+            font-size: 0.85rem;
+            color: #A0AEC0;
+            margin-bottom: 10px;
+            list-style: none;
+        }
+
+        .footer-col a:hover {
+            color: var(--accent-gold);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .social-links a {
+            width: 35px;
+            height: 35px;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            color: var(--accent-gold);
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background: var(--accent-gold);
+            color: var(--primary-navy);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            font-size: 0.8rem;
+            color: #718096;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 900px) {
+            header {
+                flex-direction: column;
+                gap: 15px;
+            }
+            nav ul {
+                gap: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .hero h2 {
+                font-size: 2.6rem;
+            }
+            .booking-wrapper {
+                margin-top: -30px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="top-bar-info">
+            <span><i class="fa-solid fa-location-dot"></i> Laxmi Chowk, Phase 1, Hinjawadi, Pune</span>
+            <span><i class="fa-solid fa-phone"></i> +91 98765 43210</span>
+        </div>
+        <div>
+            <span><i class="fa-solid fa-shield-halved"></i> Best Rate Guaranteed Direct Booking</span>
+        </div>
+    </div>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="brand-logo">
+            <i class="fa-solid fa-hotel"></i>
+            <div>
+                <h1>Blue Mystic</h1>
+                <span>Hotel & Suites • Pune</span>
+            </div>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#booking">Reservation</a></li>
+                <li><a href="#rooms">Suites & Rooms</a></li>
+                <li><a href="#dining">Dining & Restro</a></li>
+                <li><a href="#amenities">Amenities</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="#location">Location</a></li>
+                <li><a href="#booking" class="nav-btn">Book Now</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <p class="serif-font" style="font-size: 1.5rem; letter-spacing: 2px; color: var(--accent-gold);">WELCOME TO ELEGANCE</p>
+        <h2>Experience Timeless Luxury in Pune</h2>
+        <p>A premier classic stay situated in the heart of Rajiv Gandhi Infotech Park, Hinjawadi.</p>
+    </section>
+
+    <!-- Booking Reservation Card -->
+    <div class="booking-wrapper" id="booking">
+        <div class="booking-card">
+            <div class="booking-card-header">
+                <h3>Direct Room Reservation</h3>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">Select check-in dates and calculate real-time estimated charges</p>
+            </div>
+            
+            <form id="reservationForm">
+                <div class="booking-grid">
+                    
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-user"></i> Guest Full Name</label>
+                        <input type="text" id="guestName" placeholder="Enter full name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-mobile-button"></i> Contact Number</label>
+                        <input type="tel" id="guestPhone" placeholder="10-digit mobile number" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-calendar-day"></i> Check-In Date</label>
+                        <input type="date" id="checkInDate" onchange="calculateTotal()" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-calendar-check"></i> Check-Out Date</label>
+                        <input type="date" id="checkOutDate" onchange="calculateTotal()" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-bed"></i> Room Type</label>
+                        <select id="roomType" onchange="calculateTotal()" required>
+                            <option value="Standard Queen Room" data-price="2453">Standard Queen Room — ₹2,453 / night</option>
+                            <option value="Standard Twin Room" data-price="6552">Standard Twin Room — ₹6,552 / night</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-users"></i> Guests</label>
+                        <select id="guestsCount">
+                            <option value="1 Adult">1 Adult</option>
+                            <option value="2 Adults">2 Adults</option>
+                            <option value="2 Adults, 1 Child">2 Adults, 1 Child</option>
+                            <option value="3 Adults">3 Adults</option>
+                        </select>
+                    </div>
+
+                    <!-- Live Dynamic Price Calculator Display -->
+                    <div class="price-summary-box">
+                        <div>
+                            <span>Total Stay Duration: <strong id="nightsDisplay">1 Night(s)</strong></span>
+                        </div>
+                        <div>
+                            <span>Estimated Price: <strong id="totalPriceDisplay">₹2,453</strong></span>
+                        </div>
+                    </div>
+
+                    <!-- WhatsApp Instant Booking Button -->
+                    <button type="button" class="btn-whatsapp-book" onclick="processWhatsAppBooking()">
+                        <i class="fa-brands fa-whatsapp" style="font-size: 1.4rem;"></i> Instant Reserve via WhatsApp
+                    </button>
+
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Rooms Section -->
+    <section class="rooms-section" id="rooms">
+        <div class="section-header">
+            <span>Accommodations</span>
+            <h2>Our Classic Suites & Rooms</h2>
+            <div class="gold-divider"></div>
+        </div>
+
+        <div class="rooms-grid">
+            
+            <!-- Standard Queen Room (Beds Photo) -->
+            <div class="room-card">
+                <div class="room-image">
+                    <img src="https://lh3.googleusercontent.com/gps-cs-s/AHRPTWkIq-ny0WtEbwsM8lWhokuqkyvui01zDmawPMVMb-t7z6KHwIXaL1H_SUpP5vl_FwqdgtSeTX6GRRrHLsdMe7D5e9IuQ4H117M5jCS85A6Stp9n8oj10JjRsIuswqxkLW4Yc4g=w253-h168-k-no" alt="Standard Queen Room">
+                    <div class="room-badge">Popular</div>
+                </div>
+                <div class="room-details">
+                    <h3>Standard Queen Room</h3>
+                    <div class="room-amenities-icons">
+                        <i class="fa-solid fa-bed"><span>Queen Bed</span></i>
+                        <i class="fa-solid fa-wifi"><span>Free Wi-Fi</span></i>
+                        <i class="fa-solid fa-snowflake"><span>AC</span></i>
+                        <i class="fa-solid fa-tv"><span>Smart TV</span></i>
+                    </div>
+                    <p class="room-description">Elegantly designed for business and leisure travelers. Features a plush Queen bed, dedicated workspace, and daily housekeeping.</p>
+                    <div class="room-footer">
+                        <div class="price-tag">
+                            <span class="amount">₹2,453</span>
+                            <span class="period">Per Night + Taxes</span>
+                        </div>
+                        <button class="btn-select-room" onclick="selectRoom('Standard Queen Room')">Select Room</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Standard Twin Room (Twin Beds Photo) -->
+            <div class="room-card">
+                <div class="room-image">
+                    <img src="https://lh3.googleusercontent.com/gps-cs-s/AHRPTWm5YTfbacZdapAgTVz7v2IEEzwkG8XZYppSOmBe2R9A03mRAgW0XgDfCjOgqgI04nkUkbeRMmZQBNG7ZSavAuAm7cgbr5yDk34tAL0BCMz8K7kw7C0IrzytEghIGV3BljYuqZLF=w253-h168-k-no" alt="Standard Twin Room">
+                    <div class="room-badge">Luxury Executive</div>
+                </div>
+                <div class="room-details">
+                    <h3>Standard Twin Room</h3>
+                    <div class="room-amenities-icons">
+                        <i class="fa-solid fa-bed"><span>2 Single Beds</span></i>
+                        <i class="fa-solid fa-wifi"><span>Ultra Fast Wi-Fi</span></i>
+                        <i class="fa-solid fa-shirt"><span>Laundry Service</span></i>
+                        <i class="fa-solid fa-bell"><span>24/7 Room Service</span></i>
+                    </div>
+                    <p class="room-description">Spacious classic twin configuration tailored for corporate colleagues or family stays, equipped with refined furnishings and full service.</p>
+                    <div class="room-footer">
+                        <div class="price-tag">
+                            <span class="amount">₹6,552</span>
+                            <span class="period">Per Night + Taxes</span>
+                        </div>
+                        <button class="btn-select-room" onclick="selectRoom('Standard Twin Room')">Select Room</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Restaurant & Dining Section -->
+    <section class="dining-section" id="dining">
+        <div class="section-header">
+            <span>Culinary Excellence</span>
+            <h2>Blue Mystic Restro & Dining</h2>
+            <div class="gold-divider"></div>
+        </div>
+
+        <div class="dining-hero">
+            <div class="dining-content">
+                <h3>In-House Multi-Cuisine Dining</h3>
+                <p>Indulge in an extraordinary culinary journey right inside Blue Mystic Hotel. Our in-house restaurant, <strong>Blue Mystic Restro</strong>, offers an authentic fusion of rich North Indian, Mughlai, authentic Biryani, Chinese, and Asian delicacies prepared by skilled chefs.</p>
+
+                <div class="cuisine-badges">
+                    <span class="cuisine-tag"><i class="fa-solid fa-utensils"></i> North Indian</span>
+                    <span class="cuisine-tag"><i class="fa-solid fa-bowl-food"></i> Mughlai & Biryani</span>
+                    <span class="cuisine-tag"><i class="fa-solid fa-fire"></i> Chinese & Asian</span>
+                    <span class="cuisine-tag"><i class="fa-solid fa-mug-saucer"></i> Buffet Breakfast</span>
+                </div>
+
+                <div class="dining-hours">
+                    <h4><i class="fa-regular fa-clock" style="color:var(--accent-gold);"></i> Restaurant Operating Timings</h4>
+                    <span><strong>Breakfast Buffet:</strong> 7:00 AM – 10:30 AM</span>
+                    <span><strong>Lunch Hours:</strong> 12:00 PM – 3:30 PM</span>
+                    <span><strong>Dinner & Drinks:</strong> 7:00 PM – 11:30 PM</span>
+                    <span><strong>In-Room Dining:</strong> 24 Hours Available</span>
+                </div>
+
+                <button class="btn-table-reserve" onclick="reserveTableWhatsApp()">
+                    <i class="fa-brands fa-whatsapp" style="font-size:1.2rem;"></i> Reserve Table / Order Room Service
+                </button>
+            </div>
+
+            <!-- Food Dish Image Banner -->
+            <div class="dining-image-banner">
+                <img src="https://lh3.googleusercontent.com/gps-cs-s/AHRPTWmZnYwKzosvv-lAE9R14rcSUCRAbn7DAt4rKliZnDxDg0Tt6KvzOis2w_XjrIiBt3qk6uGsUIa2U-6PmK9PMYbfB5iNoj_iMiz6m0AxjLxVj0_b04_UCK8VfQwrbKqqU_amMwMu=w253-h168-k-no" alt="Blue Mystic Restro Food">
+            </div>
+        </div>
+
+        <div class="section-header" style="margin-bottom: 30px; margin-top: 20px;">
+            <span style="font-size: 0.75rem;">Guest Favorites</span>
+            <h3 style="font-size: 2rem; color: var(--primary-navy);">Chef's Menu Highlights</h3>
+        </div>
+
+        <div class="menu-highlights-grid">
+            <div class="menu-card">
+                <div class="menu-card-header">
+                    <h4>Imperial Mughlai Thali</h4>
+                    <i class="fa-solid fa-drumstick-bite" style="color:var(--accent-gold);"></i>
+                </div>
+                <p>A lavish spread featuring rich Dum Biryani, flavorful gravies, fresh Naan, and traditional Indian desserts.</p>
+            </div>
+
+            <div class="menu-card">
+                <div class="menu-card-header">
+                    <h4>Authentic Hyderabadi Dum Biryani</h4>
+                    <i class="fa-solid fa-bowl-rice" style="color:var(--accent-gold);"></i>
+                </div>
+                <p>Fragrant basmati rice slow-cooked with aromatic spices, tender herbs, served with Mirchi Ka Salan and Raita.</p>
+            </div>
+
+            <div class="menu-card">
+                <div class="menu-card-header">
+                    <h4>Special Szechuan Chinese Platter</h4>
+                    <i class="fa-solid fa-pepper-hot" style="color:var(--accent-gold);"></i>
+                </div>
+                <p>Wok-tossed Hakka noodles, crispy Paneer/Chicken Manchurian, and sizzling starters prepared hot on order.</p>
+            </div>
+
+            <div class="menu-card">
+                <div class="menu-card-header">
+                    <h4>Executive Continental Breakfast</h4>
+                    <i class="fa-solid fa-egg" style="color:var(--accent-gold);"></i>
+                </div>
+                <p>Freshly baked breads, eggs to order, fresh juices, South Indian hot tiffins, and freshly brewed coffee.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Amenities Section -->
+    <section class="amenities-section" id="amenities">
+        <div class="section-header">
+            <span>Premium Hospitality</span>
+            <h2>Hotel Amenities & Services</h2>
+            <div class="gold-divider"></div>
+        </div>
+
+        <div class="amenities-grid">
+            <div class="amenity-card">
+                <i class="fa-solid fa-utensils"></i>
+                <h4>Restaurant & Table Service</h4>
+                <p>In-house fine dining, 24/7 room service, and breakfast buffet options (extra charge applies).</p>
+            </div>
+
+            <div class="amenity-card">
+                <i class="fa-solid fa-shirt"></i>
+                <h4>Full-Service Laundry</h4>
+                <p>Same-day professional laundry and dry-cleaning services for staying guests.</p>
+            </div>
+
+            <div class="amenity-card">
+                <i class="fa-solid fa-broom"></i>
+                <h4>Daily Housekeeping</h4>
+                <p>Daily room cleaning and sanitization to ensure maximum cleanliness and comfort.</p>
+            </div>
+
+            <div class="amenity-card">
+                <i class="fa-solid fa-clock"></i>
+                <h4>24-Hour Front Desk</h4>
+                <p>Dedicated round-the-clock reception desk, express check-in, and guest support.</p>
+            </div>
+
+            <div class="amenity-card">
+                <i class="fa-solid fa-credit-card"></i>
+                <h4>Easy Payment Options</h4>
+                <p>Accepting all major Credit Cards, Debit Cards, and Mobile Payments (UPI, PhonePe, Paytm, Google Pay).</p>
+            </div>
+
+            <div class="amenity-card">
+                <i class="fa-solid fa-wifi"></i>
+                <h4>High-Speed Wi-Fi</h4>
+                <p>Seamless high-speed optical fiber wireless connection across all rooms & public areas.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="gallery-section" id="gallery">
+        <div class="section-header">
+            <span>Visual Showcase</span>
+            <h2>Explore Blue Mystic Hotel</h2>
+            <div class="gold-divider"></div>
+        </div>
+
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="https://lh3.googleusercontent.com/gps-cs-s/AHRPTWlp2QO2vZbXSR1OE35mceVt9dnNpgpRPmnabdGLWM6aI_vbge_xhawG9NqNARmMEHrMhyp4CrNIo81UPZthyTjqpnBMMc77nA5ZpYFftTQWzLGf3MPSo9atw2a3-OguGAzwOSIM=w253-h168-k-no" alt="Hotel Exterior View">
+            </div>
+            <div class="gallery-item">
+                <img src="https://lh3.googleusercontent.com/gps-cs-s/AHRPTWkIq-ny0WtEbwsM8lWhokuqkyvui01zDmawPMVMb-t7z6KHwIXaL1H_SUpP5vl_FwqdgtSeTX6GRRrHLsdMe7D5e9IuQ4H117M5jCS85A6Stp9n8oj10JjRsIuswqxkLW4Yc4g=w253-h168-k-no" alt="Standard Queen Suite">
+            </div>
+            <div class="gallery-item">
+                <img src="https://lh3.googleusercontent.com/gps-cs-s/AHRPTWm5YTfbacZdapAgTVz7v2IEEzwkG8XZYppSOmBe2R9A03mRAgW0XgDfCjOgqgI04nkUkbeRMmZQBNG7ZSavAuAm7cgbr5yDk34tAL0BCMz8K7kw7C0IrzytEghIGV3BljYuqZLF=w253-h168-k-no" alt="Standard Twin Suite">
+            </div>
+            <div class="gallery-item">
+                <img src="https://lh3.googleusercontent.com/gps-cs-s/AHRPTWmZnYwKzosvv-lAE9R14rcSUCRAbn7DAt4rKliZnDxDg0Tt6KvzOis2w_XjrIiBt3qk6uGsUIa2U-6PmK9PMYbfB5iNoj_iMiz6m0AxjLxVj0_b04_UCK8VfQwrbKqqU_amMwMu=w253-h168-k-no" alt="Restaurant & Dining Food">
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Accordion Section -->
+    <section class="faq-section">
+        <div class="section-header">
+            <span>Helpful Information</span>
+            <h2>Frequently Asked Questions</h2>
+            <div class="gold-divider"></div>
+        </div>
+
+        <div class="faq-container">
+            <div class="faq-item active">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    What are the Check-In and Check-Out timings?
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    Standard Check-In time is 12:00 PM and Check-Out time is 11:00 AM. Early check-in or late check-out is subject to room availability and prior request.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    Is the hotel located near Hinjawadi Phase 1 IT Park?
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    Yes, Blue Mystic Hotel is conveniently located right near Laxmi Chowk, Phase 1, Rajiv Gandhi Infotech Park, Hinjawadi, making it ideal for corporate travelers.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    Does Blue Mystic Hotel have an in-house restaurant?
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    Yes! We feature 'Blue Mystic Restro', an in-house multi-cuisine restaurant serving North Indian, Mughlai, Chinese, and Continental delicacies along with daily breakfast buffets and 24/7 room service.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    How does the WhatsApp instant booking work?
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    Simply fill out your name, check-in, and check-out dates above. Clicking the WhatsApp button will auto-generate your booking request and connect you directly with our reception desk on WhatsApp for instant confirmation.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location & Directions -->
+    <section class="location-section" id="location">
+        <div class="section-header">
+            <span>Find Us</span>
+            <h2>Prime Location in Pune</h2>
+            <div class="gold-divider"></div>
+        </div>
+
+        <div class="location-container">
+            <div class="location-info">
+                <h3>Contact & Address</h3>
+                
+                <div class="address-item">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <p>
+                        <strong>Blue Mystic Hotel</strong><br>
+                        SR No. 271, Vinode Vasti 271/2A/2B,<br>
+                        Laxmi Chowk Road, Near Laxmi Chowk, Phase 1,<br>
+                        Rajiv Gandhi Infotech Park, Hinjawadi, Pune, Maharashtra - 411057
+                    </p>
+                </div>
+
+                <div class="address-item">
+                    <i class="fa-solid fa-phone"></i>
+                    <p><strong>Reservations:</strong> +91 98765 43210</p>
+                </div>
+
+                <div class="address-item">
+                    <i class="fa-solid fa-envelope"></i>
+                    <p><strong>Email:</strong> stay@bluemystichotel.com</p>
+                </div>
+
+                <div class="address-item">
+                    <i class="fa-brands fa-whatsapp"></i>
+                    <p><strong>WhatsApp Support:</strong> Available 24/7 for booking queries</p>
+                </div>
+            </div>
+
+            <!-- Embedded Google Map -->
+            <div class="map-frame">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3781.562304918731!2d73.7388!3d18.5937!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTjCsDM1JzM3LjMiTiA3M8KwNDQnMzkuNyJF!5e0!3m2!1sen!2sin!4v1620000000000!5m2!1sen!2sin" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>Blue Mystic Hotel</h4>
+                <p>Providing exceptional hospitality, comfort, and convenience for business and luxury travelers in Hinjawadi, Pune.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#rooms">Suites & Rooms</a></li>
+                    <li><a href="#dining">Dining & Restro</a></li>
+                    <li><a href="#amenities">Services & Amenities</a></li>
+                    <li><a href="#location">Location & Map</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Accommodations & Dining</h4>
+                <ul>
+                    <li>Standard Queen Room (₹2,453)</li>
+                    <li>Standard Twin Room (₹6,552)</li>
+                    <li>Blue Mystic Restro & Bar</li>
+                    <li>24/7 In-Room Dining</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 Blue Mystic Hotel, Pune. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript logic -->
+    <script>
+        // Set default dates (Today & Tomorrow)
+        window.addEventListener('DOMContentLoaded', () => {
+            const today = new Date();
+            const tomorrow = new Date(today);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+
+            const formatDate = (date) => date.toISOString().split('T')[0];
+
+            document.getElementById('checkInDate').value = formatDate(today);
+            document.getElementById('checkOutDate').value = formatDate(tomorrow);
+
+            document.getElementById('checkInDate').min = formatDate(today);
+            document.getElementById('checkOutDate').min = formatDate(today);
+
+            calculateTotal();
+        });
+
+        // Dynamic Stay Duration & Price Calculator
+        function calculateTotal() {
+            const checkInVal = document.getElementById('checkInDate').value;
+            const checkOutVal = document.getElementById('checkOutDate').value;
+            const roomSelect = document.getElementById('roomType');
+            const selectedOption = roomSelect.options[roomSelect.selectedIndex];
+            const pricePerNight = parseFloat(selectedOption.getAttribute('data-price')) || 2453;
+
+            if (checkInVal && checkOutVal) {
+                const date1 = new Date(checkInVal);
+                const date2 = new Date(checkOutVal);
+                
+                // Calculate time difference in nights
+                const timeDiff = date2.getTime() - date1.getTime();
+                let nights = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+                if (nights <= 0) {
+                    nights = 1;
+                }
+
+                const totalPrice = pricePerNight * nights;
+
+                document.getElementById('nightsDisplay').innerText = `${nights} Night(s)`;
+                document.getElementById('totalPriceDisplay').innerText = `₹${totalPrice.toLocaleString('en-IN')}`;
+            }
+        }
+
+        // Select Room from Card Action
+        function selectRoom(roomName) {
+            const roomSelect = document.getElementById('roomType');
+            for (let i = 0; i < roomSelect.options.length; i++) {
+                if (roomSelect.options[i].value === roomName) {
+                    roomSelect.selectedIndex = i;
+                    break;
+                }
+            }
+            calculateTotal();
+            document.getElementById('booking').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Send Form Data directly to Hotel WhatsApp Number
+        function processWhatsAppBooking() {
+            const name = document.getElementById('guestName').value.trim();
+            const phone = document.getElementById('guestPhone').value.trim();
+            const checkIn = document.getElementById('checkInDate').value;
+            const checkOut = document.getElementById('checkOutDate').value;
+            const room = document.getElementById('roomType').value;
+            const guests = document.getElementById('guestsCount').value;
+            const total = document.getElementById('totalPriceDisplay').innerText;
+            const nights = document.getElementById('nightsDisplay').innerText;
+
+            if (!name || !phone || !checkIn || !checkOut) {
+                alert('Please complete all guest details and stay dates before reserving.');
+                return;
+            }
+
+            const hotelWhatsApp = "919876543210"; 
+
+            const textMessage = `*NEW RESERVATION INQUIRY - BLUE MYSTIC HOTEL*%0A%0A` +
+                                `*Guest Name:* ${encodeURIComponent(name)}%0A` +
+                                `*Contact Number:* ${encodeURIComponent(phone)}%0A` +
+                                `*Check-In Date:* ${encodeURIComponent(checkIn)}%0A` +
+                                `*Check-Out Date:* ${encodeURIComponent(checkOut)} (${encodeURIComponent(nights)})%0A` +
+                                `*Room Selected:* ${encodeURIComponent(room)}%0A` +
+                                `*Guests:* ${encodeURIComponent(guests)}%0A` +
+                                `*Estimated Total:* ${encodeURIComponent(total)}%0A%0A` +
+                                `_Please confirm room availability and payment details._`;
+
+            const whatsappUrl = `https://wa.me/${hotelWhatsApp}?text=${textMessage}`;
+            window.open(whatsappUrl, '_blank');
+        }
+
+        // Toggle FAQ Accordion
+        function toggleFaq(element) {
+            const faqItem = element.parentElement;
+            faqItem.classList.toggle('active');
+        }
+
+        // WhatsApp Table Reservation / Dining Inquiry Function
+        function reserveTableWhatsApp() {
+            const hotelWhatsApp = "919876543210"; 
+            const diningMsg = `*RESTAURANT & TABLE RESERVATION INQUIRY - BLUE MYSTIC RESTRO*%0A%0A` +
+                              `Hello Blue Mystic Team,%0A` +
+                              `I would like to inquire about table reservation / room service dining menu at Blue Mystic Restro.%0A%0A` +
+                              `_Please share available dining options and menu details._`;
+            window.open(`https://wa.me/${hotelWhatsApp}?text=${diningMsg}`, '_blank');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>बापूसो रामकृष्ण दळवी - दैनंदिन हिशोब डायरी</title>
+    <style>
+        /* 🎨 CSS Variables for Light & Dark Theme Switching */
+        :root {
+            --bg-body: #eef2f5;
+            --bg-card: #ffffff;
+            --bg-input: #f7fafc;
+            --bg-sub-box: #edf2f7;
+            --text-main: #1a202c;
+            --text-sub: #718096;
+            --text-label: #4a5568;
+            --border-color: #e2e8f0;
+            --card-shadow: rgba(0, 0, 0, 0.05);
+            
+            /* Highlights */
+            --daily-color: #e53e3e;
+            --monthly-color: #dd6b20;
+            --overall-color: #319795;
+        }
+
+        body.dark-theme {
+            --bg-body: #0f172a;
+            --bg-card: #1e293b;
+            --bg-input: #0f172a;
+            --bg-sub-box: #0f172a;
+            --text-main: #f8fafc;
+            --text-sub: #94a3b8;
+            --text-label: #cbd5e1;
+            --border-color: #334155;
+            --card-shadow: rgba(0, 0, 0, 0.4);
+
+            /* Neon Highlights for Dark Mode */
+            --daily-color: #ff4d6d;
+            --monthly-color: #ffb703;
+            --overall-color: #38bdf8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+        }
+
+        body {
+            background: var(--bg-body);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            padding: 16px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 520px;
+        }
+
+        /* 👑 हेडर */
+        header {
+            text-align: center;
+            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            color: #ffffff;
+            padding: 24px 18px;
+            border-radius: 24px;
+            margin-bottom: 18px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .user-name {
+            font-size: 22px;
+            font-weight: 800;
+            color: #f6ad55;
+            letter-spacing: 0.5px;
+            margin-bottom: 2px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        header h1 {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        header p {
+            font-size: 13px;
+            color: #cbd5e0;
+        }
+
+        /* 🌓 Theme Toggle Button */
+        .theme-toggle-btn {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #ffffff;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* 📊 तिन्ही हिशोब कार्ड्स (Daily, Monthly, Overall) */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .summary-card {
+            background: var(--bg-card);
+            padding: 14px 8px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 4px 12px var(--card-shadow);
+            border-top: 4px solid #2b6cb0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .summary-card.daily { border-top-color: var(--daily-color); }
+        .summary-card.monthly { border-top-color: var(--monthly-color); }
+        .summary-card.overall { border-top-color: var(--overall-color); }
+
+        .summary-card span {
+            font-size: 12px;
+            color: var(--text-sub);
+            font-weight: 700;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .summary-card .amount {
+            font-size: 17px;
+            font-weight: 800;
+        }
+
+        .summary-card.daily .amount { color: var(--daily-color); }
+        .summary-card.monthly .amount { color: var(--monthly-color); }
+        .summary-card.overall .amount { color: var(--overall-color); }
+
+        /* 📝 फॉर्म आणि लिस्ट कार्ड */
+        .card {
+            background: var(--bg-card);
+            padding: 22px;
+            border-radius: 22px;
+            box-shadow: 0 6px 18px var(--card-shadow);
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 18px;
+            color: var(--text-main);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .input-box {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        label {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-label);
+        }
+
+        .mic-input-wrapper {
+            display: flex;
+            gap: 10px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid var(--border-color);
+            border-radius: 14px;
+            font-size: 16px;
+            outline: none;
+            background-color: var(--bg-input);
+            color: var(--text-main);
+        }
+
+        input:focus, select:focus {
+            border-color: #2b6cb0;
+        }
+
+        /* 🎤 मायक्रोफोन बटण */
+        .btn-mic {
+            background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            padding: 0 18px;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s;
+            box-shadow: 0 4px 10px rgba(229, 62, 62, 0.3);
+        }
+
+        .btn-mic:active {
+            transform: scale(0.95);
+        }
+
+        .btn-mic.listening {
+            background: linear-gradient(135deg, #38a169 0%, #276749 100%);
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.06); }
+            100% { transform: scale(1); }
+        }
+
+        .row-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        button.btn-submit {
+            background: linear-gradient(135deg, #2b6cb0 0%, #1a365d 100%);
+            color: #ffffff;
+            border: none;
+            padding: 16px;
+            border-radius: 14px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 6px;
+            box-shadow: 0 6px 15px rgba(43, 108, 176, 0.3);
+        }
+
+        button.btn-submit:active {
+            transform: scale(0.98);
+        }
+
+        /* 📅 तारीख शोधणे (Filter Box) */
+        .filter-box {
+            background: var(--bg-sub-box);
+            padding: 12px 16px;
+            border-radius: 14px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 1px solid var(--border-color);
+        }
+
+        .filter-box input {
+            padding: 8px 12px;
+            font-size: 14px;
+        }
+
+        .btn-reset {
+            background: #2d3748;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 10px 14px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        /* 📜 खर्चाची लिस्ट */
+        .expense-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 8px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .expense-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-details h4 {
+            font-size: 16px;
+            color: var(--text-main);
+            margin-bottom: 4px;
+            font-weight: 700;
+        }
+
+        .item-details p {
+            font-size: 13px;
+            color: var(--text-sub);
+            font-weight: 500;
+        }
+
+        .item-right {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .item-price {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--daily-color);
+            margin-right: 4px;
+        }
+
+        .btn-edit {
+            background: rgba(221, 107, 32, 0.15);
+            color: var(--monthly-color);
+            border: 1px solid var(--monthly-color);
+            border-radius: 8px;
+            padding: 6px 8px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-del {
+            background: rgba(229, 62, 62, 0.15);
+            color: var(--daily-color);
+            border: 1px solid var(--daily-color);
+            border-radius: 8px;
+            padding: 6px 8px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .empty-text {
+            text-align: center;
+            color: var(--text-sub);
+            padding: 24px 0;
+            font-size: 15px;
+        }
+
+        .voice-status {
+            font-size: 12px;
+            color: var(--daily-color);
+            font-weight: 700;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()">🌙 Dark Mode</button>
+        <div class="user-name">👤 बापूसो रामकृष्ण दळवी</div>
+        <h1>📖 दैनंदिन हिशोब डायरी</h1>
+        <p>रोजच्या खर्चाचा सोपा व सुरक्षित हिशोब</p>
+    </header>
+
+    <!-- 📊 आजचा, या महिन्याचा आणि एकूण खर्च कार्ड्स -->
+    <div class="summary-grid">
+        <div class="summary-card daily">
+            <span>आजचा खर्च</span>
+            <div class="amount" id="dailyTotal">₹ ०</div>
+        </div>
+        <div class="summary-card monthly">
+            <span>या महिन्याचा</span>
+            <div class="amount" id="monthlyTotal">₹ ०</div>
+        </div>
+        <div class="summary-card overall">
+            <span>एकूण एकूण</span>
+            <div class="amount" id="overallTotal">₹ ०</div>
+        </div>
+    </div>
+
+    <!-- फॉर्म -->
+    <div class="card">
+        <div class="card-title" id="formTitle">📝 नवीन खर्च जोडा</div>
+        <form id="kharchForm">
+            <input type="hidden" id="editId">
+            <div class="form-group">
+                <div class="input-box">
+                    <label>तारीख</label>
+                    <input type="date" id="date" required>
+                </div>
+
+                <div class="input-box">
+                    <label>तपशील <span class="voice-status" id="voiceStatus">🎙️ बोलणे चालू आहे...</span></label>
+                    <div class="mic-input-wrapper">
+                        <input type="text" id="title" placeholder="उदा. पोल्ट्री खाद्य (किंवा माइक दाबा)" required>
+                        <button type="button" class="btn-mic" id="micBtn" title="बोलून टाईप करा">🎤</button>
+                    </div>
+                </div>
+
+                <div class="row-2">
+                    <div class="input-box">
+                        <label>रक्कम (₹)</label>
+                        <input type="number" id="amount" placeholder="रक्कम" min="1" required>
+                    </div>
+                    <div class="input-box">
+                        <label>प्रकार</label>
+                        <select id="category">
+                            <option value="दूध व भाजी">🥦 दूध व भाजी</option>
+                            <option value="औषधे">💊 औषधे</option>
+                            <option value="किराणा">🛒 किराणा सामान</option>
+                            <option value="बिल/रिचार्ज">📱 बिल व रिचार्ज</option>
+                            <option value="पोल्ट्री खर्च">🐓 पोल्ट्री खर्च</option>
+                            <option value="इतर">इतर खर्च</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-submit" id="saveBtn">💾 खर्च सेव्ह करा</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- हिशोब लिस्ट आणि तारीख फिल्टर -->
+    <div class="card">
+        <div class="card-title">📜 खर्चाची नोंद</div>
+        
+        <!-- तारीख शोधण्याचा पर्याय -->
+        <div class="filter-box">
+            <label style="white-space: nowrap;">तारीख निवडा:</label>
+            <input type="date" id="filterDate">
+            <button class="btn-reset" onclick="resetFilter()">सर्व दाखवा</button>
+        </div>
+
+        <div id="expenseList"></div>
+    </div>
+</div>
+
+<script>
+    // 🌓 Theme Switching Functionality
+    const themeToggleBtn = document.getElementById('themeToggleBtn');
+    
+    // पूर्वी निवडलेली थीम लोड करणे
+    const savedTheme = localStorage.getItem('themePreference') || 'light';
+    if (savedTheme === 'dark') {
+        document.body.classList.add('dark-theme');
+        themeToggleBtn.innerHTML = '☀️ Light Mode';
+    }
+
+    function toggleTheme() {
+        document.body.classList.toggle('dark-theme');
+        const isDark = document.body.classList.contains('dark-theme');
+        
+        if (isDark) {
+            themeToggleBtn.innerHTML = '☀️ Light Mode';
+            localStorage.setItem('themePreference', 'dark');
+        } else {
+            themeToggleBtn.innerHTML = '🌙 Dark Mode';
+            localStorage.setItem('themePreference', 'light');
+        }
+    }
+
+    // आजची तारीख सेट करणे
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('date').value = today;
+    document.getElementById('filterDate').value = today;
+
+    let expenses = JSON.parse(localStorage.getItem('hisobDiaryDataFilter')) || [];
+
+    const form = document.getElementById('kharchForm');
+    const expenseList = document.getElementById('expenseList');
+    
+    const dailyTotalDisplay = document.getElementById('dailyTotal');
+    const monthlyTotalDisplay = document.getElementById('monthlyTotal');
+    const overallTotalDisplay = document.getElementById('overallTotal');
+
+    const filterDateInput = document.getElementById('filterDate');
+    const micBtn = document.getElementById('micBtn');
+    const titleInput = document.getElementById('title');
+    const amountInput = document.getElementById('amount');
+    const categoryInput = document.getElementById('category');
+    const dateInput = document.getElementById('date');
+    const editIdInput = document.getElementById('editId');
+    const formTitle = document.getElementById('formTitle');
+    const saveBtn = document.getElementById('saveBtn');
+    const voiceStatus = document.getElementById('voiceStatus');
+
+    renderExpenses();
+
+    // तारीख बदलल्यावर लिस्ट फिल्टर करणे
+    filterDateInput.addEventListener('change', function() {
+        renderExpenses();
+    });
+
+    // रिसेट बटणावर क्लिक केल्यावर सर्व खर्च दाखवणे
+    function resetFilter() {
+        filterDateInput.value = '';
+        renderExpenses();
+    }
+
+    // 🎙️ वॉईस टायपिंग
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SpeechRecognition) {
+        const recognition = new SpeechRecognition();
+        recognition.lang = 'mr-IN';
+
+        micBtn.addEventListener('click', () => {
+            try { recognition.start(); } catch (e) { recognition.stop(); }
+        });
+
+        recognition.onstart = () => {
+            micBtn.classList.add('listening');
+            voiceStatus.style.display = 'inline';
+        };
+
+        recognition.onend = () => {
+            micBtn.classList.remove('listening');
+            voiceStatus.style.display = 'none';
+        };
+
+        recognition.onresult = (event) => {
+            titleInput.value = event.results[0][0].transcript;
+        };
+    } else {
+        micBtn.style.display = 'none';
+    }
+
+    // खर्च सेव्ह करणे किंवा एडिट करणे
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const editId = editIdInput.value;
+        const title = titleInput.value;
+        const amount = parseFloat(amountInput.value);
+        const category = categoryInput.value;
+        const date = dateInput.value;
+
+        if (editId) {
+            // एडिट करणे
+            expenses = expenses.map(item => {
+                if (item.id === Number(editId)) {
+                    return { id: item.id, title, amount, category, date };
+                }
+                return item;
+            });
+
+            editIdInput.value = '';
+            formTitle.innerText = "📝 नवीन खर्च जोडा";
+            saveBtn.innerText = "💾 खर्च सेव्ह करा";
+        } else {
+            // नवीन जोडणे
+            const newExpense = {
+                id: Date.now(),
+                title: title,
+                amount: amount,
+                category: category,
+                date: date
+            };
+            expenses.unshift(newExpense);
+        }
+
+        saveData();
+
+        filterDateInput.value = date;
+        renderExpenses();
+
+        titleInput.value = '';
+        amountInput.value = '';
+        dateInput.value = today;
+    });
+
+    // ✏️ एडिट ऑप्शन
+    function editExpense(id) {
+        const item = expenses.find(e => e.id === id);
+        if (item) {
+            editIdInput.value = item.id;
+            titleInput.value = item.title;
+            amountInput.value = item.amount;
+            categoryInput.value = item.category;
+            dateInput.value = item.date;
+
+            formTitle.innerText = "✏️ खर्च संपादित करा";
+            saveBtn.innerText = "🔄 बदल सेव्ह करा";
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    }
+
+    // 🗑️ डिलीट (हटवा) ऑप्शन
+    function deleteExpense(id) {
+        if(confirm("हा खर्च काढून टाकायचा आहे का?")) {
+            expenses = expenses.filter(item => item.id !== id);
+            saveData();
+            renderExpenses();
+        }
+    }
+
+    function saveData() {
+        localStorage.setItem('hisobDiaryDataFilter', JSON.stringify(expenses));
+    }
+
+    function calculateSummaries() {
+        const now = new Date();
+        const currentMonthYear = now.toISOString().slice(0, 7); // YYYY-MM
+
+        let dailySum = 0;
+        let monthlySum = 0;
+        let overallSum = 0;
+
+        expenses.forEach(item => {
+            overallSum += item.amount;
+
+            if (item.date === today) {
+                dailySum += item.amount;
+            }
+
+            if (item.date.startsWith(currentMonthYear)) {
+                monthlySum += item.amount;
+            }
+        });
+
+        dailyTotalDisplay.innerText = `₹ ${dailySum}`;
+        monthlyTotalDisplay.innerText = `₹ ${monthlySum}`;
+        overallTotalDisplay.innerText = `₹ ${overallSum}`;
+    }
+
+    function renderExpenses() {
+        calculateSummaries();
+
+        expenseList.innerHTML = '';
+        const selectedDate = filterDateInput.value;
+
+        let filteredExpenses = expenses;
+        if (selectedDate) {
+            filteredExpenses = expenses.filter(item => item.date === selectedDate);
+        }
+
+        if (filteredExpenses.length === 0) {
+            expenseList.innerHTML = '<div class="empty-text">या तारखेसाठी कोणतीही नोंद आढळली नाही.</div>';
+            return;
+        }
+
+        filteredExpenses.forEach(item => {
+            const formattedDate = new Date(item.date).toLocaleDateString('mr-IN', {
+                day: 'numeric',
+                month: 'short'
+            });
+
+            const div = document.createElement('div');
+            div.className = 'expense-item';
+            div.innerHTML = `
+                <div class="item-details">
+                    <h4>${item.title}</h4>
+                    <p>${item.category} • ${formattedDate}</p>
+                </div>
+                <div class="item-right">
+                    <span class="item-price">- ₹${item.amount}</span>
+                    <button class="btn-edit" onclick="editExpense(${item.id})">संपादन</button>
+                    <button class="btn-del" onclick="deleteExpense(${item.id})">हटवा</button>
+                </div>
+            `;
+            expenseList.appendChild(div);
+        });
+    }
+</script>
+
+</body>
+</html>

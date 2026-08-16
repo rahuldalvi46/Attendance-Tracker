@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>स्मार्ट पोल्ट्री व्यवस्थापन - Kwality Broilers</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        forest: { 900: '#0f2318', 800: '#1a3d2b', 700: '#1e5631', 600: '#2d7a47', 500: '#3a9e5c', 100: '#e8f5ec', 50: '#f2faf4' },
+        amber:  { 900: '#7a4200', 800: '#a05600', 700: '#c97000', 600: '#e8a020', 100: '#fef3dc', 50: '#fffaf0' },
+        clay:   { 700: '#9b2c1a', 600: '#c0392b', 100: '#fde8e6' },
+        sky:    { 700: '#1f5f8b', 600: '#2980b9', 100: '#e3f0fa' },
+        ink:    '#1c2b22',
+        paper:  '#faf8f4',
+        muted:  '#8a9e93',
+      },
+      fontFamily: { sans: ['Baloo 2', 'system-ui', 'sans-serif'] },
+      boxShadow: {
+        card:  '0 2px 12px rgba(15,35,24,0.07), 0 1px 3px rgba(15,35,24,0.05)',
+        lift:  '0 8px 28px rgba(15,35,24,0.13)',
+      }
+    }
+  }
+}
+</script>
+<style>
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body { font-family: 'Baloo 2', system-ui, sans-serif; background: #f0ede8; touch-action: manipulation; }
+
+  /* Smooth Custom Scrollbar */
+  ::-webkit-scrollbar { width: 5px; height: 5px; }
+  ::-webkit-scrollbar-track { background: #e8e5e0; }
+  ::-webkit-scrollbar-thumb { background: #2d7a47; border-radius: 3px; }
+
+  .header-bg {
+    background: linear-gradient(135deg, #0f2318 0%, #1a3d2b 55%, #2d7a47 100%);
+    position: relative; overflow: hidden;
+  }
+  .header-bg::after {
+    content: '🐔'; position: absolute; right: 12px; bottom: -15px;
+    font-size: 90px; opacity: 0.08; line-height: 1; pointer-events: none;
+  }
+
+  .stat-card { border-top: 4px solid; transition: transform .18s ease; }
+  
+  /* Mobile Optimized Big Fields */
+  .field { width: 100%; padding: 12px 14px; border: 1.5px solid #d1ddd5; border-radius: 10px;
+    font-family: inherit; font-size: 1rem; background: #fafcfa; color: #1c2b22; transition: all .18s; }
+  .field:focus { outline: none; border-color: #2d7a47; box-shadow: 0 0 0 3px rgba(45,122,71,0.15); background: #fff; }
+
+  .btn-primary { width: 100%; padding: 14px 18px; border: none; border-radius: 10px;
+    font-family: inherit; font-size: 1rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
+  
+  .data-table { width: 100%; border-collapse: collapse; white-space: nowrap; font-size: 0.88rem; }
+  .data-table th { background: #e8f5ec; color: #1a3d2b; font-weight: 700; padding: 10px 12px; border-bottom: 2px solid #c8e6c9; }
+  .data-table td { padding: 10px 12px; border-bottom: 1px solid #e8ede9; color: #1c2b22; }
+
+  .tab-btn { padding: 10px 12px; font-weight: 700; font-size: 0.88rem; cursor: pointer; border: none; transition: all .15s; border-radius: 8px; }
+  .tab-btn.active { background: #2d7a47; color: #fff; }
+  .tab-btn:not(.active) { background: #e8f5ec; color: #1a3d2b; }
+  
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(15,35,24,0.6);
+    backdrop-filter: blur(3px); z-index: 999; align-items: center; justify-content: center; }
+  .modal-overlay.open { display: flex; }
+
+  #toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(80px); background: #1a3d2b; color: #fff;
+    padding: 12px 24px; border-radius: 30px; font-size: 0.9rem; font-weight: 700;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.25); opacity: 0; transition: all .3s ease; z-index: 9999; pointer-events: none; width: max-content; }
+  #toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+  .fcr-badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; }
+</style>
+</head>
+<body class="min-h-screen pb-12">
+
+<!-- ═══ HEADER ═══ -->
+<div class="header-bg text-white px-4 py-5 md:px-8 md:py-6 mb-4">
+  <div class="max-w-screen-xl mx-auto flex flex-wrap items-center justify-between gap-3 relative z-10">
+    <div>
+      <div class="text-xs font-bold uppercase tracking-wider text-green-300">कंत्राटी शेती | Contract Farming</div>
+      <h1 class="text-xl md:text-2xl font-extrabold tracking-tight">🐔 स्मार्ट पोल्ट्री व्यवस्थापन</h1>
+      <p class="text-xs text-green-200 mt-0.5">मराठी व्हॉईस सपोर्ट व ऑटो-सेव्ह वैशिष्ट्यासह</p>
+    </div>
+    <div class="flex items-center gap-2">
+      <button onclick="shareWhatsApp()" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-3 py-2 rounded-lg flex items-center gap-1 shadow">
+        <span>💬 WhatsApp शेअर</span>
+      </button>
+      <button onclick="openModal('editModal')" class="bg-white/15 hover:bg-white/25 text-white text-xs font-bold px-3 py-2 rounded-lg">
+        ⚙️ सेटिंग्स
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="max-w-screen-xl mx-auto px-3 md:px-6">
+
+  <!-- ═══ STAT CARDS ═══ -->
+  <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-5">
+
+    <div class="stat-card bg-white rounded-xl p-3.5 shadow-card border-forest-700">
+      <div class="text-xs font-bold text-muted">एकूण पक्षी</div>
+      <div id="sc_birds" class="text-2xl font-extrabold text-ink leading-tight">0</div>
+      <div class="text-xs text-muted mt-0.5">जीवंत: <span id="sc_live" class="font-bold text-forest-700">0</span></div>
+    </div>
+
+    <div class="stat-card bg-white rounded-xl p-3.5 shadow-card border-clay-600">
+      <div class="text-xs font-bold text-muted">मृत्यू (Mortality)</div>
+      <div class="flex items-baseline gap-1">
+        <span id="sc_mort" class="text-2xl font-extrabold text-clay-600">0</span>
+        <span id="sc_mort_pct" class="text-xs font-bold text-clay-600">(0%)</span>
+      </div>
+      <div class="text-xs text-muted mt-0.5">लक्ष्य: &lt; 3%</div>
+    </div>
+
+    <div class="stat-card bg-white rounded-xl p-3.5 shadow-card border-amber-600">
+      <div class="text-xs font-bold text-muted">खाद्य वापर</div>
+      <div class="flex items-baseline gap-1">
+        <span id="sc_feed" class="text-2xl font-extrabold text-amber-700">0</span>
+        <span class="text-xs font-bold text-amber-700">गोणी</span>
+      </div>
+      <div class="text-xs text-muted mt-0.5"><span id="sc_feedkg">0</span> kg</div>
+    </div>
+
+    <div class="stat-card bg-white rounded-xl p-3.5 shadow-card border-orange-500">
+      <div class="text-xs font-bold text-muted">फार्म साठा</div>
+      <div class="flex items-baseline gap-1">
+        <span id="sc_stock" class="text-2xl font-extrabold text-orange-600">0</span>
+        <span class="text-xs font-bold text-orange-600">गोणी</span>
+      </div>
+      <div class="text-xs text-muted mt-0.5">आलेले: <span id="sc_recv">0</span></div>
+    </div>
+
+    <div class="stat-card bg-white rounded-xl p-3.5 shadow-card border-sky-600">
+      <div class="text-xs font-bold text-muted">चालू FCR</div>
+      <div id="sc_fcr" class="text-2xl font-extrabold text-sky-700">–</div>
+      <div id="sc_fcr_badge" class="fcr-badge mt-1 bg-forest-100 text-forest-700">टार्गेट &lt; 1.60</div>
+    </div>
+
+    <div class="stat-card bg-white rounded-xl p-3.5 shadow-card border-forest-500">
+      <div class="text-xs font-bold text-muted">अंदाजित नफा</div>
+      <div id="sc_profit" class="text-xl font-extrabold text-forest-700">₹ 0</div>
+      <div class="text-xs text-muted mt-0.5">@₹<span id="sc_rate">13.5</span>/kg</div>
+    </div>
+
+  </div>
+
+  <!-- ═══ MAIN GRID ═══ -->
+  <div class="grid grid-cols-1 lg:grid-cols-[360px_1fr] gap-5">
+
+    <!-- LEFT: FORMS & CONTROLS -->
+    <div class="space-y-4">
+
+      <!-- Voice Assistant Card -->
+      <div class="bg-gradient-to-r from-purple-800 to-indigo-900 text-white rounded-xl p-4 shadow-card">
+        <div class="flex justify-between items-center mb-2">
+          <span class="font-bold text-sm">🎙️ व्हॉईस नोंद (मराठी आवाज)</span>
+          <span class="text-[10px] bg-purple-600/50 px-2 py-0.5 rounded text-purple-200">AI Assist</span>
+        </div>
+        <p class="text-xs text-purple-200 mb-3">मायक्रोफोन दाबून बोला: (उदा. "१० गोणी आणि ४ पक्षी")</p>
+        <button onclick="startVoiceRecognition()" class="w-full bg-red-600 hover:bg-red-500 text-white font-bold py-2.5 px-4 rounded-lg flex items-center justify-center gap-2 shadow transition-all">
+          <span>🎤 बोलून एंट्री करा</span>
+        </button>
+        <div id="voiceStatus" class="text-xs font-semibold text-yellow-300 mt-2 text-center min-h-[16px]"></div>
+      </div>
+
+      <!-- Quick Form Tabs -->
+      <div class="bg-white rounded-xl shadow-card p-4">
+        <div class="flex gap-1.5 mb-4 overflow-x-auto pb-1">
+          <button class="tab-btn active flex-1 whitespace-nowrap" data-tab="daily">📋 दैनिक नोंद</button>
+          <button class="tab-btn flex-1 whitespace-nowrap" data-tab="feedin">🚚 खाद्य आले</button>
+          <button class="tab-btn flex-1 whitespace-nowrap" data-tab="expense">💸 खर्च</button>
+        </div>
+
+        <!-- Daily Entry -->
+        <div id="tab-daily" class="tab-panel active space-y-3">
+          <div>
+            <label class="block text-xs font-bold text-ink mb-1">तारीख</label>
+            <input type="date" id="d_date" class="field">
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-xs font-bold text-ink mb-1">खाद्य (गोणी)</label>
+              <input type="number" id="d_feed" step="0.5" placeholder="0" class="field">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-ink mb-1">मृत्यू (पक्षी)</label>
+              <input type="number" id="d_mort" placeholder="0" class="field">
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-ink mb-1">सरासरी वजन (ग्राम)</label>
+            <input type="number" id="d_wt" placeholder="उदा. 1850" class="field">
+          </div>
+          <button onclick="submitDaily()" class="btn-primary text-white bg-forest-700 hover:bg-forest-800">
+            ✅ दैनिक नोंद सेव्ह करा
+          </button>
+        </div>
+
+        <!-- Feed Received -->
+        <div id="tab-feedin" class="tab-panel space-y-3">
+          <div>
+            <label class="block text-xs font-bold text-ink mb-1">तारीख</label>
+            <input type="date" id="fi_date" class="field">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-ink mb-1">आलेल्या गोणी (Bags)</label>
+            <input type="number" id="fi_bags" placeholder="उदा. 100" class="field">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-ink mb-1">खाद्याचा प्रकार</label>
+            <select id="fi_type" class="field">
+              <option value="Pre-Starter">Pre-Starter</option>
+              <option value="Starter">Starter</option>
+              <option value="Finisher" selected>Finisher</option>
+            </select>
+          </div>
+          <button onclick="submitFeedIn()" class="btn-primary text-white bg-amber-700 hover:bg-amber-800">
+            🚚 साठा जोडा
+          </button>
+        </div>
+
+        <!-- Expense -->
+        <div id="tab-expense" class="tab-panel space-y-3">
+          <div>
+            <label class="block text-xs font-bold text-ink mb-1">तारीख</label>
+            <input type="date" id="e_date" class="field">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-ink mb-1">खर्चाचा प्रकार</label>
+            <select id="e_cat" class="field">
+              <option>लाइट बिल</option>
+              <option>भुसा / लिटर</option>
+              <option>मजुरी</option>
+              <option>डिझेल / जनरेटर</option>
+              <option>वाहतूक / इतर</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-ink mb-1">रक्कम (₹)</label>
+            <input type="number" id="e_amt" placeholder="उदा. 1500" class="field">
+          </div>
+          <button onclick="submitExpense()" class="btn-primary text-white bg-gray-800 hover:bg-black">
+            💸 खर्च सेव्ह करा
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT: LOGS & TABLES -->
+    <div class="space-y-4">
+
+      <div class="bg-white rounded-xl shadow-card overflow-hidden">
+        <div class="p-3 bg-forest-50 border-b border-forest-100 flex items-center justify-between">
+          <span class="font-bold text-forest-900 text-sm">📋 आजपर्यंतच्या नोंदी</span>
+          <button onclick="clearData()" class="text-xs text-red-600 font-bold">🗑️ डेटा साफ करा</button>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>दिवस</th>
+                <th>तारीख</th>
+                <th>खाद्य (गोणी)</th>
+                <th>मृत्यू</th>
+                <th>वजन (g)</th>
+              </tr>
+            </thead>
+            <tbody id="tb_daily">
+              <tr><td colspan="5" class="text-center text-muted py-6">अजून कोणतीही नोंद नाही</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Financial Calculations Panel -->
+      <div class="bg-white rounded-xl shadow-card p-4">
+        <div class="text-xs font-bold text-muted uppercase mb-2">हिशोब व नफा अंदाज</div>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
+          <div class="bg-forest-50 p-2.5 rounded-lg">
+            <span class="text-xs text-muted block">एकूण वजन</span>
+            <span class="font-bold text-forest-800 text-base" id="sum_wt">0 kg</span>
+          </div>
+          <div class="bg-forest-50 p-2.5 rounded-lg">
+            <span class="text-xs text-muted block">एकूण उत्पन्न</span>
+            <span class="font-bold text-forest-800 text-base" id="sum_income">₹ 0</span>
+          </div>
+          <div class="bg-red-50 p-2.5 rounded-lg">
+            <span class="text-xs text-muted block">अतिरिक्त खर्च</span>
+            <span class="font-bold text-red-700 text-base" id="sum_exp">₹ 0</span>
+          </div>
+          <div class="bg-emerald-100 p-2.5 rounded-lg">
+            <span class="text-xs text-emerald-800 font-bold block">निव्वळ नफा</span>
+            <span class="font-extrabold text-emerald-900 text-base" id="sum_net">₹ 0</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ═══ MODAL SETTINGS ═══ -->
+<div class="modal-overlay" id="editModal">
+  <div class="bg-white rounded-2xl w-full max-w-sm mx-4 shadow-lift overflow-hidden">
+    <div class="bg-forest-800 text-white px-5 py-3.5">
+      <div class="font-bold text-base">⚙️ बॅच सेटिंग्ज</div>
+    </div>
+    <div class="p-5 space-y-3">
+      <div>
+        <label class="block text-xs font-bold text-ink mb-1">एकूण आणलेले पक्षी</label>
+        <input type="number" id="m_birds" placeholder="उदा. 5000" class="field">
+      </div>
+      <div>
+        <label class="block text-xs font-bold text-ink mb-1">बॅच सुरू तारीख</label>
+        <input type="date" id="m_startdate" class="field">
+      </div>
+      <div>
+        <label class="block text-xs font-bold text-ink mb-1">ग्रोविंग चार्ज (₹/kg)</label>
+        <input type="number" step="0.1" id="m_rate" placeholder="13.5" class="field">
+      </div>
+      <div class="flex gap-2 pt-2">
+        <button onclick="saveMainDetails()" class="btn-primary text-white bg-forest-700 flex-1">सेव्ह करा</button>
+        <button onclick="closeModal('editModal')" class="btn-primary bg-gray-200 text-ink flex-1">रद्द करा</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast">✅ सेव्ह झाले!</div>
+
+<script>
+// LOCALSTORAGE STATE MANAGEMENT
+let state = JSON.parse(localStorage.getItem('poultry_state')) || {
+  totalBirds: 5000,
+  growingCharge: 13.5,
+  batchStartDate: new Date().toISOString().split('T')[0],
+  totalMortality: 0,
+  totalReceivedBags: 200,
+  totalFeedBags: 0,
+  totalExpenses: 0,
+  lastAvgWeight: 0,
+  dailyLogs: [],
+  feedLogs: [],
+  expenseLogs: []
+};
+
+function saveState() {
+  localStorage.setItem('poultry_state', JSON.stringify(state));
+  updateUI();
+  renderDailyTable();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const today = new Date().toISOString().split('T')[0];
+  ['d_date','fi_date','e_date','m_startdate'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = today;
+  });
+  
+  setupTabs();
+  updateUI();
+  renderDailyTable();
+});
+
+function setupTabs() {
+  document.querySelectorAll('[data-tab]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('[data-tab]').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const target = btn.dataset.tab;
+      ['daily','feedin','expense'].forEach(t => {
+        document.getElementById('tab-'+t).classList.toggle('active', t === target);
+      });
+    });
+  });
+}
+
+function updateUI() {
+  const live = state.totalBirds - state.totalMortality;
+  const mortPct = state.totalBirds > 0 ? (state.totalMortality / state.totalBirds * 100).toFixed(2) : '0.00';
+  const feedKg = state.totalFeedBags * 50;
+  const stock = state.totalReceivedBags - state.totalFeedBags;
+  const liveWtKg = (live * state.lastAvgWeight) / 1000;
+  const fcr = liveWtKg > 0 ? (feedKg / liveWtKg).toFixed(2) : null;
+  const income = liveWtKg * state.growingCharge;
+  const net = income - state.totalExpenses;
+
+  set('sc_birds', state.totalBirds.toLocaleString('mr-IN'));
+  set('sc_live', live.toLocaleString('mr-IN'));
+  set('sc_mort', state.totalMortality.toLocaleString('mr-IN'));
+  set('sc_mort_pct', `(${mortPct}%)`);
+  set('sc_feed', state.totalFeedBags);
+  set('sc_feedkg', feedKg.toLocaleString('mr-IN'));
+  set('sc_stock', stock);
+  set('sc_recv', state.totalReceivedBags);
+  set('sc_fcr', fcr ? fcr : '–');
+  set('sc_rate', state.growingCharge);
+  set('sc_profit', '₹ ' + Math.round(net).toLocaleString('mr-IN'));
+
+  set('sum_wt', Math.round(liveWtKg).toLocaleString('mr-IN') + ' kg');
+  set('sum_income', '₹ ' + Math.round(income).toLocaleString('mr-IN'));
+  set('sum_exp', '₹ ' + state.totalExpenses.toLocaleString('mr-IN'));
+  set('sum_net', '₹ ' + Math.round(net).toLocaleString('mr-IN'));
+}
+
+function submitDaily() {
+  const date = val('d_date');
+  const feed = parseFloat(val('d_feed')) || 0;
+  const mort = parseInt(val('d_mort')) || 0;
+  const wt = parseInt(val('d_wt')) || 0;
+
+  if (!date || (feed === 0 && mort === 0)) { showToast('⚠️ कृपया माहिती भरा', '#c0392b'); return; }
+
+  state.totalFeedBags += feed;
+  state.totalMortality += mort;
+  if (wt > 0) state.lastAvgWeight = wt;
+
+  const dayNum = daysSince(state.batchStartDate, date);
+  state.dailyLogs.unshift({ date, feed, mort, wt, dayNum });
+  
+  clearFields(['d_feed','d_mort','d_wt']);
+  saveState();
+  showToast('✅ नोंद सुरक्षित सेव्ह झाली!');
+}
+
+function submitFeedIn() {
+  const bags = parseInt(val('fi_bags')) || 0;
+  if (bags <= 0) return;
+  state.totalReceivedBags += bags;
+  clearFields(['fi_bags']);
+  saveState();
+  showToast('🚚 साठा जोडला गेला!');
+}
+
+function submitExpense() {
+  const amt = parseInt(val('e_amt')) || 0;
+  if (amt <= 0) return;
+  state.totalExpenses += amt;
+  clearFields(['e_amt']);
+  saveState();
+  showToast('💸 खर्च नोंदवला!');
+}
+
+function renderDailyTable() {
+  const tb = document.getElementById('tb_daily');
+  if (!state.dailyLogs.length) { 
+    tb.innerHTML = '<tr><td colspan="5" class="text-center text-muted py-6">अजून कोणतीही नोंद नाही</td></tr>'; 
+    return; 
+  }
+  tb.innerHTML = state.dailyLogs.map(r => `
+    <tr>
+      <td class="font-bold text-forest-700">${r.dayNum}</td>
+      <td>${r.date}</td>
+      <td class="font-semibold">${r.feed} गोणी</td>
+      <td class="${r.mort > 0 ? 'text-red-600 font-bold' : ''}">${r.mort}</td>
+      <td>${r.wt > 0 ? r.wt + 'g' : '–'}</td>
+    </tr>`).join('');
+}
+
+// Voice Input Feature
+function startVoiceRecognition() {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) { alert("तुमच्या ब्राउझरमध्ये व्हॉइस इनपुट सपोर्ट नाही. Chrome वापरा."); return; }
+
+  const recognition = new SpeechRecognition();
+  recognition.lang = 'mr-IN';
+  const statusElem = document.getElementById('voiceStatus');
+  statusElem.innerText = "🎤 ऐकत आहे... बोला...";
+  recognition.start();
+
+  recognition.onresult = function(event) {
+    const transcript = event.results[0][0].transcript;
+    statusElem.innerText = `तुमचे वाक्य: "${transcript}"`;
+    const numbers = transcript.match(/\d+/g);
+    if (numbers && numbers.length >= 1) {
+      document.getElementById('d_feed').value = numbers[0] || 0;
+      if (numbers[1]) document.getElementById('d_mort').value = numbers[1];
+      statusElem.innerText += " -> ✅ फॉर्म भरला गेला!";
+    }
+  };
+}
+
+// WhatsApp Share Feature
+function shareWhatsApp() {
+  const live = state.totalBirds - state.totalMortality;
+  const feedKg = state.totalFeedBags * 50;
+  const liveWtKg = (live * state.lastAvgWeight) / 1000;
+  const fcr = liveWtKg > 0 ? (feedKg / liveWtKg).toFixed(2) : 'N/A';
+
+  const text = `🐔 *पोल्ट्री फार्म डेली अपडेट*%0A` +
+               `एकूण पक्षी: ${state.totalBirds}%0A` +
+               `जीवंत पक्षी: ${live}%0A` +
+               `मृत्यू: ${state.totalMortality}%0A` +
+               `वापरलेले खाद्य: ${state.totalFeedBags} गोणी%0A` +
+               `चालू FCR: ${fcr}%0A` +
+               `सरासरी वजन: ${state.lastAvgWeight}g`;
+               
+  window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
+}
+
+function saveMainDetails() {
+  state.totalBirds = parseInt(val('m_birds')) || state.totalBirds;
+  state.batchStartDate = val('m_startdate') || state.batchStartDate;
+  state.growingCharge = parseFloat(val('m_rate')) || state.growingCharge;
+  closeModal('editModal');
+  saveState();
+  showToast('⚙️ सेटिंग्ज सेव्ह झाल्या!');
+}
+
+function clearData() {
+  if (confirm('सर्व सेव्ह केलेला डेटा डिलीट करायचा आहे का?')) {
+    localStorage.removeItem('poultry_state');
+    location.reload();
+  }
+}
+
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+function val(id) { return (document.getElementById(id) || {}).value || ''; }
+function set(id, v) { const el = document.getElementById(id); if (el) el.textContent = v; }
+function clearFields(ids) { ids.forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; }); }
+function daysSince(start, asOf) { return Math.max(1, Math.round((new Date(asOf) - new Date(start)) / 86400000) + 1); }
+
+function showToast(msg, bg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.background = bg || '#1a3d2b';
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+</script>
+</body>
+</html>

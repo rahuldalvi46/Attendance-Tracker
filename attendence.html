@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aesthetic Attendance OS (Mobile Compact)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #07090e;
+            --card-bg: rgba(18, 26, 43, 0.65);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --card-hover-border: rgba(99, 102, 241, 0.4);
+            
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            
+            --primary: #6366f1;
+            --primary-glow: rgba(99, 102, 241, 0.35);
+            --cyan: #06b6d4;
+            --cyan-glow: rgba(6, 182, 212, 0.35);
+            --success: #10b981;
+            --success-glow: rgba(16, 185, 129, 0.3);
+            --warning: #f59e0b;
+            --danger: #f43f5e;
+            --danger-glow: rgba(244, 63, 94, 0.3);
+            --lab-purple: #a855f7;
+
+            --radius-lg: 16px;
+            --radius-md: 10px;
+            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            background-image: 
+                radial-gradient(circle at 10% 10%, rgba(99, 102, 241, 0.12) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(168, 85, 247, 0.12) 0%, transparent 40%);
+            background-attachment: fixed;
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 20px 16px;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 16px 20px;
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .brand-title h1 {
+            font-size: 1.4rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .brand-title p {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        /* Target Pill */
+        .target-pill {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--card-border);
+            border-radius: 30px;
+            padding: 4px 10px;
+            gap: 4px;
+            font-size: 0.75rem;
+        }
+
+        .target-pill input {
+            width: 38px;
+            background: transparent;
+            border: none;
+            color: var(--cyan);
+            font-weight: 700;
+            text-align: center;
+            font-size: 0.85rem;
+            outline: none;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 8px 14px;
+            border-radius: var(--radius-md);
+            border: none;
+            font-weight: 600;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-glow {
+            background: linear-gradient(135deg, var(--primary), #4f46e5);
+            color: white;
+            box-shadow: 0 4px 15px var(--primary-glow);
+        }
+
+        .btn-glass {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-main);
+            border: 1px solid var(--card-border);
+        }
+
+        .btn-danger-glass {
+            background: rgba(244, 63, 94, 0.1);
+            color: #fda4af;
+            border: 1px solid rgba(244, 63, 94, 0.2);
+        }
+
+        /* Glass Cards */
+        .glass-panel {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            padding: 18px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            transition: var(--transition);
+        }
+
+        /* Overview Grid */
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .overview-card {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 16px;
+        }
+
+        /* Ring Container */
+        .svg-ring-container {
+            position: relative;
+            width: 65px;
+            height: 65px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .svg-ring-container svg {
+            width: 65px;
+            height: 65px;
+            transform: rotate(-90deg);
+        }
+
+        .svg-ring-container circle {
+            fill: transparent;
+            stroke-width: 6;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 0.8s ease-in-out;
+        }
+
+        .circle-bg { stroke: rgba(255, 255, 255, 0.06); }
+        .circle-val { stroke-dasharray: 182; stroke-dashoffset: 182; }
+
+        .ring-text {
+            position: absolute;
+            font-size: 0.85rem;
+            font-weight: 800;
+        }
+
+        .stat-meta h3 {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            margin-bottom: 2px;
+        }
+
+        .stat-meta .stat-number {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        .stat-meta .stat-badge {
+            display: inline-block;
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 12px;
+            margin-top: 2px;
+        }
+
+        .badge-safe { background: rgba(16, 185, 129, 0.15); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.3); }
+        .badge-danger { background: rgba(244, 63, 94, 0.15); color: #fca5a5; border: 1px solid rgba(244, 63, 94, 0.3); }
+
+        /* Search & Controls */
+        .controls-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            position: relative;
+            flex: 1;
+            min-width: 180px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 8px 12px 8px 34px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-md);
+            color: white;
+            outline: none;
+            font-size: 0.8rem;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0.5;
+            font-size: 0.8rem;
+        }
+
+        .filter-tabs {
+            display: flex;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-md);
+            padding: 3px;
+            gap: 2px;
+        }
+
+        .tab-btn {
+            padding: 5px 10px;
+            border-radius: 6px;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .tab-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Split Layout */
+        .layout-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 18px;
+        }
+
+        /* Subject Cards */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 12px;
+        }
+
+        .subject-card {
+            border: 1px solid var(--card-border);
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+
+        .card-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+        }
+
+        .type-tag {
+            font-size: 0.6rem;
+            font-weight: 800;
+            padding: 2px 6px;
+            border-radius: 10px;
+            text-transform: uppercase;
+        }
+
+        .tag-theory { background: rgba(99, 102, 241, 0.15); color: #a5b4fc; border: 1px solid rgba(99, 102, 241, 0.3); }
+        .tag-lab { background: rgba(168, 85, 247, 0.15); color: #d8b4fe; border: 1px solid rgba(168, 85, 247, 0.3); }
+
+        .card-body-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .pct-display {
+            font-size: 1.5rem;
+            font-weight: 800;
+        }
+
+        .att-ratio {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-align: right;
+        }
+
+        .progress-track {
+            height: 5px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 10px;
+        }
+
+        .insight-pill {
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 6px 8px;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+
+        .insight-pill b { color: white; }
+
+        .action-row {
+            display: flex;
+            gap: 6px;
+        }
+
+        .btn-act {
+            flex: 1;
+            padding: 6px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.7rem;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-p { background: rgba(16, 185, 129, 0.15); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.25); }
+        .btn-a { background: rgba(244, 63, 94, 0.15); color: #fca5a5; border: 1px solid rgba(244, 63, 94, 0.25); }
+
+        .btn-del {
+            background: transparent;
+            color: var(--text-muted);
+            border: none;
+            cursor: pointer;
+            padding: 0 4px;
+            font-size: 0.85rem;
+        }
+
+        /* Form Inputs */
+        .form-group { margin-bottom: 12px; }
+        .form-group label { display: block; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; color: var(--text-muted); margin-bottom: 4px; }
+        .form-control { width: 100%; padding: 8px 10px; border-radius: var(--radius-md); background: rgba(0, 0, 0, 0.3); border: 1px solid var(--card-border); color: white; font-size: 0.8rem; outline: none; }
+
+        /* Logs Table */
+        .logs-table { width: 100%; border-collapse: collapse; font-size: 0.75rem; }
+        .logs-table th { text-align: left; color: var(--text-muted); padding: 6px 8px; border-bottom: 1px solid var(--card-border); }
+        .logs-table td { padding: 8px; border-bottom: 1px solid rgba(255, 255, 255, 0.03); }
+
+        /* Modal */
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(8px); align-items: center; justify-content: center; z-index: 1000; }
+        .modal-card { width: 90%; max-width: 380px; }
+
+        /* Toast */
+        #toast-container { position: fixed; bottom: 15px; right: 15px; z-index: 2000; display: flex; flex-direction: column; gap: 8px; }
+        .toast { padding: 10px 14px; border-radius: var(--radius-md); background: rgba(18, 26, 43, 0.95); border: 1px solid var(--card-border); color: white; font-size: 0.8rem; font-weight: 600; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5); }
+
+        /* ========================================================== */
+        /* 📱 MOBILE SPECIFIC SCROLLING FIXES & COMPACT STYLING */
+        /* ========================================================== */
+        @media (max-width: 768px) {
+            body { padding: 12px 10px; }
+            header { padding: 12px 14px; flex-direction: column; align-items: stretch; gap: 10px; margin-bottom: 14px; }
+            .brand-title h1 { font-size: 1.2rem; }
+            .header-controls { justify-content: space-between; width: 100%; gap: 6px; }
+            .btn { padding: 6px 10px; font-size: 0.75rem; }
+            
+            /* Stats horizontal scroll to save height */
+            .overview-grid {
+                display: flex;
+                overflow-x: auto;
+                scroll-snap-type: x mandatory;
+                gap: 10px;
+                padding-bottom: 6px;
+                margin-bottom: 14px;
+            }
+            .overview-card {
+                min-width: 220px;
+                flex: 0 0 auto;
+                scroll-snap-align: start;
+                padding: 12px;
+                gap: 12px;
+            }
+            .svg-ring-container { width: 50px; height: 50px; }
+            .svg-ring-container svg { width: 50px; height: 50px; }
+            .circle-val { stroke-dasharray: 138; stroke-dashoffset: 138; }
+            .svg-ring-container circle { r: 22; cx: 25; cy: 25; stroke-width: 5; }
+            .ring-text { font-size: 0.75rem; }
+            .stat-meta .stat-number { font-size: 1.1rem; }
+
+            .layout-grid { grid-template-columns: 1fr; gap: 14px; }
+            .cards-grid { grid-template-columns: 1fr; gap: 10px; }
+            .glass-panel { padding: 14px; border-radius: 12px; }
+            .subject-card { padding: 12px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="toast-container"></div>
+
+    <div class="container">
+        <!-- Top App Header -->
+        <header>
+            <div class="brand-title">
+                <h1>⚡ Attendance OS</h1>
+                <p>Compact Mobile Tracker</p>
+            </div>
+            <div class="header-controls">
+                <div class="target-pill" title="Target Percentage">
+                    <span style="color: var(--text-muted); font-weight:600;">Goal:</span>
+                    <input type="number" id="globalTargetInput" value="75" min="50" max="100" onchange="updateTargetGoal(this.value)">
+                    <span style="color: var(--cyan); font-weight:700;">%</span>
+                </div>
+                <button class="btn btn-glow" onclick="openModal('addSubjectModal')">➕ Course</button>
+                <button class="btn btn-glass" onclick="exportData()">💾</button>
+                <button class="btn btn-glass" onclick="triggerImport()">📂</button>
+                <button class="btn btn-danger-glass" onclick="resetAllData()">🔄</button>
+                <input type="file" id="importFileInput" style="display: none;" onchange="importData(event)">
+            </div>
+        </header>
+
+        <!-- Dynamic Dashboard Overview Grid (Horizontal Swipe on Mobile) -->
+        <div class="overview-grid">
+            <div class="glass-panel overview-card">
+                <div class="svg-ring-container">
+                    <svg>
+                        <circle class="circle-bg" cx="32.5" cy="32.5" r="28"></circle>
+                        <circle class="circle-val" id="overallRing" cx="32.5" cy="32.5" r="28"></circle>
+                    </svg>
+                    <span class="ring-text" id="overallPctText">0%</span>
+                </div>
+                <div class="stat-meta">
+                    <h3>Overall Score</h3>
+                    <div class="stat-number" id="overallRatioText">0 / 0</div>
+                    <span class="stat-badge" id="overallBadge">Calculating...</span>
+                </div>
+            </div>
+
+            <div class="glass-panel overview-card">
+                <div class="svg-ring-container">
+                    <svg>
+                        <circle class="circle-bg" cx="32.5" cy="32.5" r="28"></circle>
+                        <circle class="circle-val" id="theoryRing" cx="32.5" cy="32.5" r="28"></circle>
+                    </svg>
+                    <span class="ring-text" id="theoryPctText">0%</span>
+                </div>
+                <div class="stat-meta">
+                    <h3>Theory Subjects</h3>
+                    <div class="stat-number" id="theoryRatioText">0 / 0</div>
+                    <span class="stat-badge badge-safe">Theory Track</span>
+                </div>
+            </div>
+
+            <div class="glass-panel overview-card">
+                <div class="svg-ring-container">
+                    <svg>
+                        <circle class="circle-bg" cx="32.5" cy="32.5" r="28"></circle>
+                        <circle class="circle-val" id="labRing" cx="32.5" cy="32.5" r="28"></circle>
+                    </svg>
+                    <span class="ring-text" id="labPctText">0%</span>
+                </div>
+                <div class="stat-meta">
+                    <h3>Practical / Labs</h3>
+                    <div class="stat-number" id="labRatioText">0 / 0</div>
+                    <span class="stat-badge badge-safe">Lab Track</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Controls: Search & Tabs -->
+        <div class="controls-bar">
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="searchInput" placeholder="Search subject..." oninput="renderApp()">
+            </div>
+            <div class="filter-tabs">
+                <button class="tab-btn active" onclick="setFilter('All', this)">All</button>
+                <button class="tab-btn" onclick="setFilter('Theory', this)">Theory</button>
+                <button class="tab-btn" onclick="setFilter('Lab', this)">Labs</button>
+            </div>
+        </div>
+
+        <!-- Main Workspace Split -->
+        <div class="layout-grid">
+            <!-- Left Side: Cards Container -->
+            <div>
+                <div class="cards-grid" id="subjectsGrid">
+                    <!-- Dynamic Cards Inserted Here -->
+                </div>
+            </div>
+
+            <!-- Right Side: Action Forms & Logs -->
+            <div style="display: flex; flex-direction: column; gap: 14px;">
+                <!-- Mark Daily Log Form -->
+                <div class="glass-panel">
+                    <h2 style="font-size: 0.95rem; margin-bottom: 10px;">📅 Quick Entry</h2>
+                    <form onsubmit="addLogFromForm(event)">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                            <div class="form-group">
+                                <label>Date</label>
+                                <input type="date" id="logDate" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Status</label>
+                                <select id="logStatusSelect" class="form-control" required>
+                                    <option value="Present">Present ✅</option>
+                                    <option value="Absent">Absent ❌</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Subject</label>
+                            <select id="logSubjectSelect" class="form-control" required></select>
+                        </div>
+                        <button type="submit" class="btn btn-glow" style="width: 100%; justify-content: center; padding: 8px;">Record Class</button>
+                    </form>
+                </div>
+
+                <!-- Recent Logs Feed -->
+                <div class="glass-panel">
+                    <h2 style="font-size: 0.95rem; margin-bottom: 8px;">📋 Activity Feed</h2>
+                    <div style="max-height: 200px; overflow-y: auto;">
+                        <table class="logs-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Subject</th>
+                                    <th>Status</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="logsTableBody">
+                                <!-- Dynamic Log Rows -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Add New Subject -->
+    <div class="modal-overlay" id="addSubjectModal">
+        <div class="glass-panel modal-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <h2 style="font-size: 1.05rem;">Add New Course</h2>
+                <button class="btn-del" onclick="closeModal('addSubjectModal')">✖</button>
+            </div>
+            <form onsubmit="addNewSubject(event)">
+                <div class="form-group">
+                    <label>Course Title</label>
+                    <input type="text" id="newSubName" class="form-control" placeholder="e.g. Operating Systems" required>
+                </div>
+                <div class="form-group">
+                    <label>Course Type</label>
+                    <select id="newSubTypes" class="form-control" required>
+                        <option value="Theory">Theory Lecture</option>
+                        <option value="Lab">Practical Lab</option>
+                    </select>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                    <div class="form-group">
+                        <label>Attended</label>
+                        <input type="number" id="newSubAttended" class="form-control" value="0" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Conducted</label>
+                        <input type="number" id="newSubTotal" class="form-control" value="0" min="0" required>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 8px; justify-content: flex-end; margin-top: 15px;">
+                    <button type="button" class="btn btn-glass" onclick="closeModal('addSubjectModal')">Cancel</button>
+                    <button type="submit" class="btn btn-glow">Save Course</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const defaultSubjects = [
+            { id: 1, name: "MCE", type: "Theory", attended: 0, total: 0 },
+            { id: 2, name: "DSGT", type: "Theory", attended: 0, total: 0 },
+            { id: 3, name: "AOA", type: "Theory", attended: 0, total: 0 },
+            { id: 4, name: "COA", type: "Theory", attended: 0, total: 0 },
+            { id: 5, name: "OE", type: "Theory", attended: 0, total: 0 },
+            { id: 6, name: "FSGP", type: "Theory", attended: 0, total: 0 },
+            { id: 7, name: "ED", type: "Theory", attended: 0, total: 0 },
+            { id: 8, name: "ESE", type: "Theory", attended: 0, total: 0 },
+            { id: 9, name: "AOA Lab", type: "Lab", attended: 0, total: 0 },
+            { id: 10, name: "COA Lab", type: "Lab", attended: 0, total: 0 },
+            { id: 11, name: "FSGP Lab", type: "Lab", attended: 0, total: 0 }
+        ];
+
+        let subjects = JSON.parse(localStorage.getItem('att_os_subjects')) || defaultSubjects;
+        let logs = JSON.parse(localStorage.getItem('att_os_logs')) || [];
+        let targetGoal = parseInt(localStorage.getItem('att_os_target')) || 75;
+        let activeFilter = 'All';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('logDate').valueAsDate = new Date();
+            document.getElementById('globalTargetInput').value = targetGoal;
+            renderApp();
+        });
+
+        function showToast(msg) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.innerText = msg;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 2500);
+        }
+
+        function saveData() {
+            localStorage.setItem('att_os_subjects', JSON.stringify(subjects));
+            localStorage.setItem('att_os_logs', JSON.stringify(logs));
+            localStorage.setItem('att_os_target', targetGoal.toString());
+        }
+
+        function updateTargetGoal(val) {
+            targetGoal = parseInt(val) || 75;
+            saveData();
+            renderApp();
+            showToast(`Target updated to ${targetGoal}%`);
+        }
+
+        function setFilter(type, btn) {
+            activeFilter = type;
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderSubjects();
+        }
+
+        function renderApp() {
+            renderOverview();
+            renderSubjects();
+            renderLogs();
+            updateDropdownOptions();
+        }
+
+        function setRingProgress(elementId, pct, color) {
+            const ring = document.getElementById(elementId);
+            const isMobile = window.innerWidth <= 768;
+            const circumference = isMobile ? 138 : 182;
+            const offset = circumference - (pct / 100) * circumference;
+            
+            ring.style.strokeDasharray = `${circumference}`;
+            ring.style.strokeDashoffset = offset;
+            ring.style.stroke = color;
+        }
+
+        function renderOverview() {
+            let totA = 0, totC = 0, thA = 0, thC = 0, labA = 0, labC = 0;
+
+            subjects.forEach(s => {
+                totA += s.attended; totC += s.total;
+                if (s.type === 'Theory') { thA += s.attended; thC += s.total; }
+                else { labA += s.attended; labC += s.total; }
+            });
+
+            const overallPct = totC > 0 ? ((totA / totC) * 100).toFixed(1) : 0;
+            const theoryPct = thC > 0 ? ((thA / thC) * 100).toFixed(1) : 0;
+            const labPct = labC > 0 ? ((labA / labC) * 100).toFixed(1) : 0;
+
+            document.getElementById('overallPctText').innerText = `${Math.round(overallPct)}%`;
+            document.getElementById('overallRatioText').innerText = `${totA} / ${totC}`;
+
+            document.getElementById('theoryPctText').innerText = `${Math.round(theoryPct)}%`;
+            document.getElementById('theoryRatioText').innerText = `${thA} / ${thC}`;
+
+            document.getElementById('labPctText').innerText = `${Math.round(labPct)}%`;
+            document.getElementById('labRatioText').innerText = `${labA} / ${labC}`;
+
+            const getColor = (pct) => pct >= targetGoal ? 'var(--success)' : (pct >= targetGoal - 5 ? 'var(--warning)' : 'var(--danger)');
+            
+            setRingProgress('overallRing', overallPct, getColor(overallPct));
+            setRingProgress('theoryRing', theoryPct, getColor(theoryPct));
+            setRingProgress('labRing', labPct, getColor(labPct));
+
+            const badge = document.getElementById('overallBadge');
+            if (overallPct >= targetGoal) {
+                badge.className = 'stat-badge badge-safe';
+                badge.innerText = `≥${targetGoal}% Safe`;
+            } else {
+                badge.className = 'stat-badge badge-danger';
+                badge.innerText = `<${targetGoal}% Low`;
+            }
+        }
+
+        function calculatePrediction(attended, total) {
+            if (total === 0) return "No data recorded.";
+            const pct = (attended / total) * 100;
+            const T = targetGoal / 100;
+
+            if (pct >= targetGoal) {
+                const safeBunks = Math.floor((attended - T * total) / T);
+                if (safeBunks > 0) return `Can safely bunk <b>${safeBunks}</b> class(es).`;
+                return `At ${pct.toFixed(1)}%. Don't miss next class!`;
+            } else {
+                const needed = Math.ceil((T * total - attended) / (1 - T));
+                return `Attend next <b>${needed}</b> class(es) continuously.`;
+            }
+        }
+
+        function renderSubjects() {
+            const container = document.getElementById('subjectsGrid');
+            const searchQuery = document.getElementById('searchInput').value.toLowerCase();
+            container.innerHTML = '';
+
+            const filtered = subjects.filter(s => {
+                const matchesFilter = activeFilter === 'All' || s.type === activeFilter;
+                const matchesSearch = s.name.toLowerCase().includes(searchQuery);
+                return matchesFilter && matchesSearch;
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 20px;">No subjects found.</div>`;
+                return;
+            }
+
+            filtered.forEach(s => {
+                const pct = s.total > 0 ? ((s.attended / s.total) * 100).toFixed(1) : 0;
+                let colorVar = pct >= targetGoal ? 'var(--success)' : (pct >= targetGoal - 5 ? 'var(--warning)' : 'var(--danger)');
+                const predictionText = calculatePrediction(s.attended, s.total);
+
+                const card = document.createElement('div');
+                card.className = 'glass-panel subject-card';
+                card.innerHTML = `
+                    <div>
+                        <div class="card-head">
+                            <span class="card-title">${s.name}</span>
+                            <span class="type-tag ${s.type === 'Theory' ? 'tag-theory' : 'tag-lab'}">${s.type}</span>
+                        </div>
+                        <div class="card-body-stats">
+                            <span class="pct-display" style="color: ${colorVar}">${pct}%</span>
+                            <span class="att-ratio">${s.attended} / ${s.total} Conducted</span>
+                        </div>
+                        <div class="progress-track">
+                            <div class="progress-fill" style="width: ${Math.min(pct, 100)}%; background: ${colorVar}"></div>
+                        </div>
+                        <div class="insight-pill">
+                            ${predictionText}
+                        </div>
+                    </div>
+                    <div>
+                        <div class="action-row">
+                            <button class="btn-act btn-p" onclick="quickLog(${s.id}, 'Present')">+ Present</button>
+                            <button class="btn-act btn-a" onclick="quickLog(${s.id}, 'Absent')">+ Absent</button>
+                            <button class="btn-del" title="Delete Course" onclick="deleteSubject(${s.id})">🗑️</button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function quickLog(subjectId, status) {
+            const sub = subjects.find(s => s.id === subjectId);
+            if (!sub) return;
+
+            sub.total += 1;
+            if (status === 'Present') sub.attended += 1;
+
+            const today = new Date().toISOString().split('T')[0];
+            logs.unshift({ id: Date.now(), date: today, subjectId: subjectId, status: status });
+
+            saveData();
+            renderApp();
+            showToast(`${status}: ${sub.name}`);
+        }
+
+        function addLogFromForm(e) {
+            e.preventDefault();
+            const date = document.getElementById('logDate').value;
+            const subjectId = parseInt(document.getElementById('logSubjectSelect').value);
+            const status = document.getElementById('logStatusSelect').value;
+
+            const sub = subjects.find(s => s.id === subjectId);
+            if (!sub) return;
+
+            sub.total += 1;
+            if (status === 'Present') sub.attended += 1;
+
+            logs.unshift({ id: Date.now(), date: date, subjectId: subjectId, status: status });
+
+            saveData();
+            renderApp();
+            showToast(`Added: ${sub.name}`);
+        }
+
+        function renderLogs() {
+            const tbody = document.getElementById('logsTableBody');
+            tbody.innerHTML = '';
+
+            if (logs.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" style="text-align: center; color: var(--text-muted);">No activity recorded.</td></tr>`;
+                return;
+            }
+
+            logs.slice(0, 10).forEach(log => {
+                const sub = subjects.find(s => s.id === log.subjectId);
+                const subName = sub ? sub.name : 'Deleted';
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td style="color: var(--text-muted);">${log.date}</td>
+                    <td style="font-weight:600;">${subName}</td>
+                    <td><span style="color: ${log.status === 'Present' ? 'var(--success)' : 'var(--danger)'}; font-weight:700;">${log.status}</span></td>
+                    <td><button class="btn-del" onclick="deleteLog(${log.id})">✖</button></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function deleteLog(logId) {
+            const idx = logs.findIndex(l => l.id === logId);
+            if (idx === -1) return;
+
+            const log = logs[idx];
+            const sub = subjects.find(s => s.id === log.subjectId);
+            if (sub && sub.total > 0) {
+                sub.total -= 1;
+                if (log.status === 'Present' && sub.attended > 0) sub.attended -= 1;
+            }
+
+            logs.splice(idx, 1);
+            saveData();
+            renderApp();
+            showToast("Log entry removed");
+        }
+
+        function updateDropdownOptions() {
+            const select = document.getElementById('logSubjectSelect');
+            select.innerHTML = '';
+            subjects.forEach(s => {
+                const opt = document.createElement('option');
+                opt.value = s.id;
+                opt.innerText = `${s.name} (${s.type})`;
+                select.appendChild(opt);
+            });
+        }
+
+        function addNewSubject(e) {
+            e.preventDefault();
+            const name = document.getElementById('newSubName').value;
+            const type = document.getElementById('newSubTypes').value;
+            const attended = parseInt(document.getElementById('newSubAttended').value) || 0;
+            const total = parseInt(document.getElementById('newSubTotal').value) || 0;
+
+            subjects.push({ id: Date.now(), name, type, attended, total });
+            saveData();
+            renderApp();
+            closeModal('addSubjectModal');
+
+            document.getElementById('newSubName').value = '';
+            showToast(`Added '${name}'`);
+        }
+
+        function deleteSubject(id) {
+            if (confirm("Delete this course?")) {
+                subjects = subjects.filter(s => s.id !== id);
+                logs = logs.filter(l => l.subjectId !== id);
+                saveData();
+                renderApp();
+                showToast("Course deleted");
+            }
+        }
+
+        function exportData() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({ subjects, logs, targetGoal }));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", `attendance_backup_${new Date().toISOString().split('T')[0]}.json`);
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+            showToast("Backup exported!");
+        }
+
+        function triggerImport() { document.getElementById('importFileInput').click(); }
+
+        function importData(e) {
+            const fileReader = new FileReader();
+            fileReader.onload = (event) => {
+                try {
+                    const parsed = JSON.parse(event.target.result);
+                    if (parsed.subjects && parsed.logs) {
+                        subjects = parsed.subjects;
+                        logs = parsed.logs;
+                        if (parsed.targetGoal) targetGoal = parsed.targetGoal;
+                        saveData();
+                        renderApp();
+                        showToast("Data restored!");
+                    }
+                } catch (err) { alert("Invalid backup file!"); }
+            };
+            fileReader.readAsText(e.target.files[0]);
+        }
+
+        function resetAllData() {
+            if (confirm("Reset all data?")) {
+                localStorage.clear();
+                subjects = defaultSubjects;
+                logs = [];
+                targetGoal = 75;
+                saveData();
+                renderApp();
+                showToast("Data reset to default");
+            }
+        }
+
+        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+    </script>
+</body>
+</html>

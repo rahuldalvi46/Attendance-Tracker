@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finger Counter Website</title>
+    <!-- MediaPipe AI Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+    
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            background-color: #1e1e2f;
+            color: white;
+            margin: 0;
+            padding: 20px;
+        }
+        h2 { color: #00d2ff; }
+        .stats-box {
+            background: #2a2a40;
+            padding: 15px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+        .count-text { font-size: 24px; margin: 10px 0; }
+        .total-text { font-size: 32px; color: #00ff88; font-weight: bold; }
+        button {
+            padding: 12px 24px;
+            font-size: 20px;
+            font-weight: bold;
+            background: linear-gradient(45deg, #007bff, #00d2ff);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover { transform: scale(1.05); }
+        .video-container {
+            position: relative;
+            display: inline-block;
+            border: 4px solid #00d2ff;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        /* व्हिडिओ मिरर (उलटा) करण्यासाठी */
+        video, canvas { transform: scaleX(-1); }
+        canvas { position: absolute; top: 0; left: 0; z-index: 10; }
+    </style>
+</head>
+<body>
+
+    <h2>🤖 AI फिंगर काउंटर (बोटे मोजा आणि बेरीज करा)</h2>
+    
+    <div class="stats-box">
+        <div class="count-text">सध्या दिसणारी बोटे: <span id="currentFingers" style="color: yellow; font-weight: bold;">0</span></div>
+        <div class="total-text">एकूण बेरीज: <span id="totalSum">0</span></div>
+        <br>
+        <button onclick="addFingers()">➕ बेरीज करा (Add to Total)</button>
+        <button onclick="resetTotal()" style="background: #ff4757; margin-left: 10px;">रिसेट (Reset)</button>
+    </div>
+
+    <br>
+
+    <div class="video-container">
+        <!-- कॅमेरा फीड -->
+        <video id="video" width="640" height="480" autoplay playsinline></video>
+        <!-- हाताचे पॉइंट्स दाखवण्यासाठी कॅनव्हास -->
+        <canvas id="canvas" width="640" height="480"></canvas>
+    </div>
+
+    <script>
+        const videoElement = document.getElementById('video');
+        const canvasElement = document.getElementById('canvas');
+        const canvasCtx = canvasElement.getContext('2d');
+        
+        const currentFingersEl = document.getElementById('currentFingers');
+        const totalSumEl = document.getElementById('totalSum');
+
+        let currentFingerCount = 0;
+        let totalSum = 0;
+
+        // बेरीज करण्याचे फंक्शन
+        function addFingers() {
+            totalSum += currentFingerCount;
+            totalSumEl.innerText = totalSum;
+        }
+
+        // बेरीज झिरो (0) करण्याचे फंक्शन
+        function resetTotal() {
+            totalSum = 0;
+            totalSumEl.innerText = totalSum;
+        }
+
+        // AI कडून रिझल्ट आल्यावर काय करायचे
+        function onResults(results) {
+            canvasCtx.save();
+            canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+            canvasCtx.drawImage(results.image, 0, 0, canvasElement.width, canvasElement.height);
+
+            let fingerCount = 0;
+
+            if (results.multiHandLandmarks && results.multiHandLandmarks.length > 0) {
+                for (const landmarks of results.multiHandLandmarks) {
+                    // हाताच्या रेषा आणि पॉइंट्स ड्रॉ करा
+                    drawConnectors(canvasCtx, landmarks, HAND_CONNECTIONS, {color: '#00d2ff', lineWidth: 4});
+                    drawLandmarks(canvasCtx, landmarks, {color: '#ffffff', lineWidth: 2, radius: 4});
+
+                    // 4 बोटांचे टिप्स (Index, Middle, Ring, Pinky)
+                    const tipIds = [8, 12, 16, 20];
+                    
+                    // अंगठा (Thumb) मोजण्याची पद्धत
+                    if (landmarks[4].y < landmarks[3].y) {
+                        fingerCount++;
+                    }
+
+                    // बाकीची 4 बोटे उभी आहेत का ते तपासणे
+                    for (let i = 0; i < tipIds.length; i++) {
+                        // बोटाचे टोक (tip) त्याच्या खालच्या सांध्यापेक्षा (pip) वर असेल तर
+                        if (landmarks[tipIds[i]].y < landmarks[tipIds[i] - 2].y) {
+                            fingerCount++;
+                        }
+                    }
+                }
+            }
+            
+            // स्क्रीनवर सध्याची बोटे अपडेट करा
+            currentFingerCount = fingerCount;
+            currentFingersEl.innerText = currentFingerCount;
+            
+            canvasCtx.restore();
+        }
+
+        // MediaPipe Hands सेटअप
+        const hands = new Hands({locateFile: (file) => {
+            return `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`;
+        }});
+
+        hands.setOptions({
+            maxNumHands: 2, // दोन्ही हात मोजता येतील
+            modelComplexity: 1,
+            minDetectionConfidence: 0.6,
+            minTrackingConfidence: 0.6
+        });
+
+        hands.onResults(onResults);
+
+        // कॅमेरा सुरू करणे
+        const camera = new Camera(videoElement, {
+            onFrame: async () => {
+                await hands.send({image: videoElement});
+            },
+            width: 640,
+            height: 480
+        });
+        camera.start();
+    </script>
+</body>
+</html>

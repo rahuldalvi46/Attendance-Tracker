@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grand Horizon Hotel & Beach Resort | Goa</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased">
+
+    <!-- NAVIGATION -->
+    <nav class="sticky top-0 z-40 glass-card border-b border-slate-200/80 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center space-x-2">
+                    <span class="bg-amber-600 text-white p-2 rounded-lg text-xl"><i class="fa-solid fa-hotel"></i></span>
+                    <span class="text-2xl font-bold tracking-tight text-slate-900">Grand Horizon Goa</span>
+                </div>
+                <div class="hidden md:flex space-x-8 font-medium">
+                    <a href="#about" class="hover:text-amber-600 transition">About</a>
+                    <a href="#rooms" class="hover:text-amber-600 transition">Rooms</a>
+                    <a href="#menu" class="hover:text-amber-600 transition">Restaurant Menu</a>
+                    <a href="#contact" class="hover:text-amber-600 transition">Contact & Location</a>
+                </div>
+                <a href="#booking" class="bg-amber-600 hover:bg-amber-700 text-white px-5 py-2.5 rounded-full font-semibold shadow-md transition transform hover:-translate-y-0.5">
+                    Book Now
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="relative bg-slate-900 text-white py-24 md:py-32 overflow-hidden">
+        <div class="absolute inset-0 opacity-40">
+            <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1600&q=80" alt="Goa Resort" class="w-full h-full object-cover">
+        </div>
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <span class="bg-amber-500/20 text-amber-300 border border-amber-400/30 text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full">Beachfront Resort in Goa</span>
+            <h1 class="text-4xl md:text-6xl font-extrabold mt-4 mb-6 tracking-tight">Experience Unmatched Comfort in Goa</h1>
+            <p class="text-slate-300 text-lg md:text-xl max-w-2xl mx-auto mb-10">Discover beachside luxury, delicious authentic Goan cuisine, and warm hospitality.</p>
+            
+            <!-- GOOGLE RATING BADGE -->
+            <div class="inline-flex items-center gap-3 bg-slate-800/80 backdrop-blur-md px-5 py-2.5 rounded-full border border-slate-700 shadow-xl">
+                <i class="fa-brands fa-google text-amber-400 text-xl"></i>
+                <div class="flex items-center text-amber-400 text-sm">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <span class="ml-2 font-bold text-white">4.8 / 5.0</span>
+                </div>
+                <span class="text-xs text-slate-400 border-l border-slate-700 pl-3">(280+ Goa Reviews)</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- QUICK BOOKING FORM -->
+    <section id="booking" class="max-w-5xl mx-auto -mt-12 relative z-10 px-4">
+        <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8 border border-slate-100">
+            <h3 class="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+                <i class="fa-solid fa-calendar-check text-amber-600"></i> Reserve Your Room via WhatsApp
+            </h3>
+            <form id="bookingForm" onsubmit="sendWhatsAppBooking(event)" class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Check-in</label>
+                    <input type="date" id="checkin" required class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-amber-600">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Check-out</label>
+                    <input type="date" id="checkout" required class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-amber-600">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Room Type</label>
+                    <select id="roomType" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-amber-600">
+                        <option value="Deluxe Beach Cottage">Deluxe Beach Cottage (₹3,500/night)</option>
+                        <option value="Executive Sea View Suite">Executive Sea View Suite (₹5,000/night)</option>
+                        <option value="Family Villa">Family Villa (₹7,500/night)</option>
+                    </select>
+                </div>
+                <div class="flex items-end">
+                    <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2.5 rounded-lg shadow transition flex items-center justify-center gap-2">
+                        <i class="fa-brands fa-whatsapp text-lg"></i> Send Inquiry
+                    </button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- ROOM ACCOMMODATION CARDS -->
+    <section id="rooms" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-extrabold text-slate-900">Our Accommodations</h2>
+            <p class="text-slate-600 mt-2">Designed for relaxation near the Goan shore</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Room 1 -->
+            <div class="bg-white rounded-2xl overflow-hidden border border-slate-200/80 shadow-sm hover:shadow-lg transition">
+                <img src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=800&q=80" alt="Deluxe Cottage" class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <div class="flex justify-between items-baseline mb-2">
+                        <h3 class="text-xl font-bold">Deluxe Beach Cottage</h3>
+                        <span class="text-amber-600 font-extrabold text-lg">₹3,500<span class="text-xs text-slate-500 font-normal">/night</span></span>
+                    </div>
+                    <p class="text-slate-600 text-sm mb-4">King bed, garden balcony, and high-speed Wi-Fi included.</p>
+                    <div class="flex gap-4 text-slate-400 text-sm border-t pt-4">
+                        <span><i class="fa-solid fa-wifi"></i> Free Wi-Fi</span>
+                        <span><i class="fa-solid fa-snowflake"></i> AC</span>
+                        <span><i class="fa-solid fa-tv"></i> Smart TV</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Room 2 -->
+            <div class="bg-white rounded-2xl overflow-hidden border border-slate-200/80 shadow-sm hover:shadow-lg transition">
+                <img src="https://images.unsplash.com/photo-1591088398332-8a7791972843?auto=format&fit=crop&w=800&q=80" alt="Executive Sea View" class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <div class="flex justify-between items-baseline mb-2">
+                        <h3 class="text-xl font-bold">Executive Sea View</h3>
+                        <span class="text-amber-600 font-extrabold text-lg">₹5,000<span class="text-xs text-slate-500 font-normal">/night</span></span>
+                    </div>
+                    <p class="text-slate-600 text-sm mb-4">Direct sea views, complimentary breakfast, and mini-bar.</p>
+                    <div class="flex gap-4 text-slate-400 text-sm border-t pt-4">
+                        <span><i class="fa-solid fa-utensils"></i> Breakfast</span>
+                        <span><i class="fa-solid fa-wine-glass"></i> Mini Bar</span>
+                        <span><i class="fa-solid fa-water"></i> Sea View</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Room 3 -->
+            <div class="bg-white rounded-2xl overflow-hidden border border-slate-200/80 shadow-sm hover:shadow-lg transition">
+                <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80" alt="Family Villa" class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <div class="flex justify-between items-baseline mb-2">
+                        <h3 class="text-xl font-bold">Family Villa</h3>
+                        <span class="text-amber-600 font-extrabold text-lg">₹7,500<span class="text-xs text-slate-500 font-normal">/night</span></span>
+                    </div>
+                    <p class="text-slate-600 text-sm mb-4">Two queen beds, private verandah, perfect for families.</p>
+                    <div class="flex gap-4 text-slate-400 text-sm border-t pt-4">
+                        <span><i class="fa-solid fa-users"></i> 4 Guests</span>
+                        <span><i class="fa-solid fa-couch"></i> Lounge</span>
+                        <span><i class="fa-solid fa-wifi"></i> Free Wi-Fi</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HOTEL RESTAURANT MENU -->
+    <section id="menu" class="py-20 bg-slate-100">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-10">
+                <span class="text-amber-600 font-bold text-sm tracking-widest uppercase">Dining & Culinary</span>
+                <h2 class="text-3xl font-extrabold text-slate-900 mt-1">Goan Special Menu</h2>
+            </div>
+
+            <!-- Menu Card Container -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Food -->
+                    <div>
+                        <h3 class="text-lg font-bold text-amber-600 border-b border-amber-100 pb-2 mb-4 flex items-center gap-2">
+                            <i class="fa-solid fa-utensils"></i> Chef Specials
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h4 class="font-bold text-slate-800">Goan Fish Curry Rice</h4>
+                                    <p class="text-xs text-slate-500">Fresh kingfish curry cooked with coconut & spices</p>
+                                </div>
+                                <span class="font-bold text-slate-900">₹380</span>
+                            </div>
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h4 class="font-bold text-slate-800">Prawns Rava Fry</h4>
+                                    <p class="text-xs text-slate-500">Crispy semolina-coated jumbo prawns</p>
+                                </div>
+                                <span class="font-bold text-slate-900">₹450</span>
+                            </div>
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h4 class="font-bold text-slate-800">Chicken Xacuti</h4>
+                                    <p class="text-xs text-slate-500">Traditional roasted coconut Goan curry</p>
+                                </div>
+                                <span class="font-bold text-slate-900">₹340</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Drinks & Refreshments -->
+                    <div>
+                        <h3 class="text-lg font-bold text-amber-600 border-b border-amber-100 pb-2 mb-4 flex items-center gap-2">
+                            <i class="fa-solid fa-glass-martini-alt"></i> Refreshments
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h4 class="font-bold text-slate-800">Fresh Tender Coconut</h4>
+                                    <p class="text-xs text-slate-500">Chilled coconut water direct from palms</p>
+                                </div>
+                                <span class="font-bold text-slate-900">₹80</span>
+                            </div>
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h4 class="font-bold text-slate-800">Sol Kadhi</h4>
+                                    <p class="text-xs text-slate-500">Traditional kokum & coconut milk drink</p>
+                                </div>
+                                <span class="font-bold text-slate-900">₹70</span>
+                            </div>
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h4 class="font-bold text-slate-800">Goan Bebinca Dessert</h4>
+                                    <p class="text-xs text-slate-500">Classic multi-layered Goan pudding</p>
+                                </div>
+                                <span class="font-bold text-slate-900">₹180</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-8 text-center pt-6 border-t border-slate-100">
+                    <a href="https://wa.me/919404749307?text=Hi%2C%20I%20would%20like%20to%20order%20food%20from%20the%20menu" target="_blank" class="inline-flex items-center gap-2 text-emerald-600 font-bold hover:underline">
+                        <i class="fa-brands fa-whatsapp"></i> Order Food via WhatsApp Direct Chat
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GOOGLE MAPS & CONTACT SECTION -->
+    <section id="contact" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            
+            <!-- Contact Info -->
+            <div>
+                <span class="text-amber-600 font-bold text-sm tracking-widest uppercase">Find Us</span>
+                <h2 class="text-3xl font-extrabold text-slate-900 mt-1 mb-6">Location & Contact</h2>
+                
+                <div class="space-y-6">
+                    <div class="flex items-start gap-4">
+                        <span class="bg-amber-100 text-amber-700 p-3 rounded-xl"><i class="fa-solid fa-location-dot text-xl"></i></span>
+                        <div>
+                            <h4 class="font-bold text-slate-900">Hotel Address</h4>
+                            <p class="text-slate-600 text-sm">Calangute Beach Road, North Goa, Goa - 403516, India</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-4">
+                        <span class="bg-amber-100 text-amber-700 p-3 rounded-xl"><i class="fa-solid fa-phone text-xl"></i></span>
+                        <div>
+                            <h4 class="font-bold text-slate-900">Phone & WhatsApp</h4>
+                            <p class="text-slate-600 text-sm">+91 9404749307</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-4">
+                        <span class="bg-amber-100 text-amber-700 p-3 rounded-xl"><i class="fa-solid fa-envelope text-xl"></i></span>
+                        <div>
+                            <h4 class="font-bold text-slate-900">Email Address</h4>
+                            <p class="text-slate-600 text-sm">info@grandhorizongoa.com</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Embedded Google Map centered on Goa -->
+            <div class="h-80 md:h-96 rounded-2xl overflow-hidden shadow-lg border border-slate-200">
+                <iframe 
+                    class="w-full h-full border-0" 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d123060.03831818274!2d73.73238692604085!3d15.549422502660233!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bbfea1124458f01%3A0x6b4ef84c71887e50!2sCalangute%20Beach!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin" 
+                    allowfullscreen="" 
+                    loading="lazy">
+                </iframe>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-900 text-slate-400 py-10 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 text-center text-sm">
+            <p>© 2026 Grand Horizon Goa. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- FLOATING WHATSAPP BUTTON -->
+    <a href="https://wa.me/919404749307?text=Hello%21%20I%20have%20a%20question%20about%20booking%20a%20room%20in%20Goa." 
+       target="_blank" 
+       class="fixed bottom-6 right-6 bg-emerald-500 hover:bg-emerald-600 text-white rounded-full p-4 shadow-2xl flex items-center justify-center transition transform hover:scale-110 z-50">
+        <i class="fa-brands fa-whatsapp text-3xl"></i>
+    </a>
+
+    <!-- WHATSAPP BOOKING SCRIPT -->
+    <script>
+        function sendWhatsAppBooking(event) {
+            event.preventDefault();
+            
+            // Your Hotel WhatsApp Number
+            const hotelPhone = "919404749307"; 
+
+            const checkin = document.getElementById("checkin").value;
+            const checkout = document.getElementById("checkout").value;
+            const roomType = document.getElementById("roomType").value;
+
+            // Build Message string
+            const message = `Hello! I would like to book a room at Grand Horizon Goa:%0A` +
+                            `• Room Type: ${encodeURIComponent(roomType)}%0A` +
+                            `• Check-in Date: ${checkin}%0A` +
+                            `• Check-out Date: ${checkout}`;
+
+            // Redirect to WhatsApp URL
+            window.open(`https://wa.me/${hotelPhone}?text=${message}`, '_blank');
+        }
+    </script>
+</body>
+</html>
